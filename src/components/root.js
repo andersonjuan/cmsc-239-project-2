@@ -20,7 +20,7 @@ class RootComponent extends React.Component {
   }
 
   componentWillMount() {
-    csv('data/sample-data.csv')
+    csv('data/athlete_events.csv')
       .then(data => {
         this.setState({
           data,
@@ -31,9 +31,13 @@ class RootComponent extends React.Component {
 
   render() {
     const {loading, data} = this.state;
+    
+    console.log(data);
+
     if (loading) {
       return <h1>LOADING</h1>;
     }
+    
     return (
       <div className="relative">
         <h1> Hello Explainable!</h1>
@@ -46,5 +50,6 @@ class RootComponent extends React.Component {
     );
   }
 }
+
 RootComponent.displayName = 'RootComponent';
 export default RootComponent;
