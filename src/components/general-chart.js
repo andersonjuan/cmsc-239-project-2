@@ -23,7 +23,7 @@ export default class ButtonFilterChart extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      noc: 'DEF',
+      noc: 'USA',
       keyOfInterest: this.props.options[0]
       };
 
@@ -32,7 +32,9 @@ export default class ButtonFilterChart extends Component {
   };
 
   handlNOCChange(event) {
+    event.persist()
     this.setState((state) => {
+      console.log(state)
       state.noc = event.target.value.toUpperCase();
       return state;
     });
@@ -50,7 +52,9 @@ export default class ButtonFilterChart extends Component {
     return (
       <div>
         <div>
-          <input type="text" maxLength="3" onChange={this.handlNOCChange} />
+          <form>
+            <input type="text" maxLength="3" onChange={this.handlNOCChange} />
+          </form>
         </div>
         {(this.props.options).length > 1 &&
           this.props.options.map(opt => {
