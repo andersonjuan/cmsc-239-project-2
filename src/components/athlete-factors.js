@@ -22,7 +22,7 @@ import {capitalizeFirstLetter, getStats} from './../utils.js';
   *  change summary stat
   *  by country
 */
-export default class AthleteMedalCounts extends Component {
+export default class AthleteFactors extends Component {
   constructor(props) {
     super(props);
     this.state = {
