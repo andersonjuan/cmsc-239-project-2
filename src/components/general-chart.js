@@ -24,7 +24,9 @@ export default class ButtonFilterChart extends Component {
     this.state = {
       noc: Object.keys(this.props.data)[getRandomInt(Object.keys(this.props.data).length)],
       keyOfInterest: this.props.options[0],
-      legalNocs: Object.keys(this.props.data)
+      legalNocs: Object.keys(this.props.data),
+      yDomain: getYdomain(this.props.data),
+      xDomain: getXdomain(this.props.data)
       };
 
     this.handlNOCChange = this.handlNOCChange.bind(this);
@@ -55,11 +57,15 @@ export default class ButtonFilterChart extends Component {
     const plotWidth = this.props.dim.width;
     const plotHeight = this.props.dim.height;
     console.log(dataRender)
+    console.log(this.state.yDomain)
+    console.log(this.state.xDomain)
     return (
       <div>
         <XYPlot
           width={plotWidth}
           height={plotHeight}
+          yDomain={this.state.yDomain}
+          xDomain={this.state.xDomain}
           getX={d => d.key}
           getY={d => {
             if (d[this.state.keyOfInterest] === undefined) {
@@ -100,8 +106,6 @@ export default class ButtonFilterChart extends Component {
 }
 
 
-
-
 function dictToarray(data) {
   return Object.keys(data).map(d => {
     const v = data[d].total;
@@ -113,4 +117,46 @@ function dictToarray(data) {
 // Source : https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
+}
+
+function getXdomain(data) {
+  const results = Object.keys(data).reduce((accum, country) => {
+    const dates = Object.keys(data[country])
+    accum.min = Math.min(accum.min, ...dates);
+    accum.max = Math.max(accum.max, ...dates);
+    return accum;
+  }, {min: Infinity, max: -Infinity});
+  return [results.min, results.max];
+}
+
+function getYdomain(data) {
+  const results = Object.keys(data).reduce((accum, country) => {
+    const local = Object.keys(data[country]).reduce((accumLocal, year) => {
+
+      accumLocal.min = Math.min(accumLocal.min,
+                                  ...grabValues(data[country][year].winter, 'NA'),
+                                  ...grabValues(data[country][year].total, 'NA'),
+                                  ...grabValues(data[country][year].summer, 'NA'));
+      accumLocal.max = Math.max(accumLocal.max,
+                                  ...grabValues(data[country][year].winter, 'NA'),
+                                  ...grabValues(data[country][year].total, 'NA'),
+                                  ...grabValues(data[country][year].summer, 'NA'));
+      return accumLocal;
+    }, {min: Infinity, max: -Infinity})
+    accum.min = Math.min(accum.min, local.min);
+    accum.max = Math.max(accum.max, local.max);
+    console.log(data[country], country, accum)
+    return accum;
+  }, {min: Infinity, max: -Infinity});
+
+  return [results.min, results.max];
+}
+
+function grabValues(data, keyToIgnore) {
+  return Object.keys(data).reduce((accum, key) => {
+    if (key !== keyToIgnore) {
+      accum.push(data[key])
+    }
+    return accum;
+  }, [])
 }
