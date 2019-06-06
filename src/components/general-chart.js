@@ -7,7 +7,7 @@ import {XYPlot,
           MarkSeries,
           Hint} from 'react-vis';
 
-import {capitalizeFirstLetter, getStats} from './../utils.js'
+import {capitalizeFirstLetter, getStats} from './../utils.js';
 
 // may want to try the select tag to let user to select by country
 /*
@@ -54,7 +54,7 @@ export default class ButtonFilterChart extends Component {
     const dataRender = dictToarray(this.props.data[this.state.noc]);
     const plotWidth = this.props.dim.width;
     const plotHeight = this.props.dim.height;
-    console.log(dataRender)
+    console.log(dataRender);
     return (
       <div>
         <XYPlot
@@ -91,7 +91,7 @@ export default class ButtonFilterChart extends Component {
           this.props.options.map(opt => {
             return (<button key={opt} onClick={this.handleKOFchange.bind(this, opt)}>
               {capitalizeFirstLetter(opt)}
-            </button>)
+            </button>);
           })
         }
       </div>
@@ -109,7 +109,7 @@ function dictToarray(data) {
     const v = data[d].total;
     v.key = d;
     return v;
-  })
+  });
 }
 
 // Source : https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
