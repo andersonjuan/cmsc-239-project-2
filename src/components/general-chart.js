@@ -51,9 +51,10 @@ export default class ButtonFilterChart extends Component {
     });
   }
 
-  handleKOFchange(change) {
+  handleKOFchange(newQuerry, e) {
+    console.log(newQuerry)
     this.setState((state) => {
-      state.keyOfInterest = change;
+      state.keyOfInterest = newQuerry;
       return state;
     });
   }
@@ -62,32 +63,32 @@ export default class ButtonFilterChart extends Component {
     const dataRender = dictToarray(this.props.data[this.state.noc]);
     const plotWidth = this.props.dim.width;
     const plotHeight = this.props.dim.height;
-    console.log(this.props.data)
+    console.log(dataRender)
     return (
       <div>
         <XYPlot
           width={plotWidth}
           height={plotHeight}
-          getX={d => {
+          getX={d => d.key}
+          getY={d => {
             if (d[this.state.keyOfInterest] === undefined) {
               return 0;
             }
-            return d[this.state.keyOfInterest]}}
-          getY={d => d.key}>
+            return d[this.state.keyOfInterest]}}>
           <VerticalGridLines />
           <HorizontalGridLines />
           <XAxis />
           <YAxis />
           <MarkSeries
             className="Graph 1"
-            cx={d => {
+            cx={d => d.key}
+            cy={d => {
               console.log(d[this.state.keyOfInterest]);
               if (d[this.state.keyOfInterest] === undefined) {
                 return 0;
               }
               return d[this.state.keyOfInterest]}
             }
-            cy={d => d.key}
             data={dataRender}/>
         </XYPlot>
         <div>
@@ -97,7 +98,7 @@ export default class ButtonFilterChart extends Component {
         </div>
         {(this.props.options).length > 1 &&
           this.props.options.map(opt => {
-            return (<button key={opt} onClick={this.handleKOFchange}>
+            return (<button key={opt} onClick={this.handleKOFchange.bind(this, opt)}>
               {capitalizeFirstLetter(opt)}
             </button>)
           })
