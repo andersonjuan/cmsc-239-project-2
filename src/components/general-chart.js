@@ -7,7 +7,7 @@ import {XYPlot,
           MarkSeries,
           Hint} from 'react-vis';
 
-import {capitalizeFirstLetter, getStats} from './../utils.js'
+import {capitalizeFirstLetter, getStats} from './../utils.js';
 
 // may want to try the select tag to let user to select by country
 /*
@@ -27,7 +27,7 @@ export default class ButtonFilterChart extends Component {
       legalNocs: Object.keys(this.props.data),
       yDomain: getYdomain(this.props.data),
       xDomain: getXdomain(this.props.data)
-      };
+    };
 
     this.handlNOCChange = this.handlNOCChange.bind(this);
     this.handleKOFchange = this.handleKOFchange.bind(this);
@@ -94,7 +94,7 @@ export default class ButtonFilterChart extends Component {
           this.props.options.map(opt => {
             return (<button key={opt} onClick={this.handleKOFchange.bind(this, opt)}>
               {capitalizeFirstLetter(opt)}
-            </button>)
+            </button>);
           })
         }
       </div>
@@ -112,7 +112,7 @@ function dictToarray(data) {
     const v = data[d].total;
     v.key = d;
     return v;
-  })
+  });
 }
 
 // Source : https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
@@ -122,7 +122,7 @@ function getRandomInt(max) {
 
 function getXdomain(data) {
   const results = Object.keys(data).reduce((accum, country) => {
-    const dates = Object.keys(data[country])
+    const dates = Object.keys(data[country]);
     accum.min = Math.min(accum.min, ...dates);
     accum.max = Math.max(accum.max, ...dates);
     return accum;
