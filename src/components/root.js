@@ -2,6 +2,7 @@ import React from 'react';
 import {csv} from 'd3-fetch';
 import ExampleChart from './example-chart';
 import ButtonFilterChart from './general-chart';
+import {Intro, Conclusion, Para1, Para2, Para3, Para4, Para5} from '../text.js';
 
 import {categorizeBy, grabBy, getStats, getCatRange, countBy} from './../utils.js'
 
@@ -40,7 +41,6 @@ class RootComponent extends React.Component {
     if (loading) {
       return <h1>LOADING</h1>;
     }
-
     const cleanedData = data.filter(d => (Number(d.Year) >= 2016));
     let medalsData = categorizeBy(cleanedData, "NOC", "Year");
 
@@ -61,9 +61,11 @@ class RootComponent extends React.Component {
 
     return (
       <div className="relative">
-        <h1> Hello Explainable!</h1>
+        <h1> All the Glitter is not Gold</h1>
+        <Intro />
         <div>{`The example data was loaded! There are ${medalsData.length} rows`}</div>
         <ButtonFilterChart data={medalsData} options={cat} dim={dimension} />
+        <Conclusion />
       </div>
     );
   }
