@@ -79,6 +79,7 @@ class RootComponent extends React.Component {
         <ButtonFilterChart data={medalsData} options={medals} dim={dimension} />
         <Para2 />
         <Para3 />
+        <AthleteMedalCounts data={athleteMedals} options={medals} dim={dimension} />
         <Para4 />
         <Para5 />
         <Conclusion />

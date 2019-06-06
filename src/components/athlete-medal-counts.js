@@ -40,7 +40,8 @@ export default class AthleteMedalCounts extends Component {
   handleSportChange(event) {
     event.persist();
     this.setState((state) => {
-      const newQuerry = event.target.value.toUpperCase();
+      let newQuerry = event.target.value;
+      newQuerry = capitalizeFirstLetter(newQuerry);
       if (this.state.legalSports.includes(newQuerry)) {
         state.sport = newQuerry;
       }
@@ -71,7 +72,12 @@ export default class AthleteMedalCounts extends Component {
           height={plotHeight}
           yDomain={this.state.yDomain}
           xDomain={this.state.xDomain}
-          getX={d => d.key}
+          getX={d => {
+            if (isNaN(d.key)) {
+              return 0;
+            }
+            return d.key;
+          }}
           getY={d => {
             if (d[this.state.keyOfInterest] === undefined) {
               return 0;
@@ -83,7 +89,12 @@ export default class AthleteMedalCounts extends Component {
           <YAxis />
           <MarkSeries
             className="Graph 4"
-            cx={d => d.key}
+            cx={d => {
+              if (isNaN(d.key)) {
+                return 0;
+              }
+              return d.key;
+            }}
             cy={d => {
               console.log(d[this.state.keyOfInterest]);
               if (d[this.state.keyOfInterest] === undefined) {
