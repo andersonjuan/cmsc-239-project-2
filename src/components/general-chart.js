@@ -9,6 +9,15 @@ import {XYPlot,
 
 import {capitalizeFirstLetter, getStats} from './../utils.js'
 
+function dictToarray(data) {
+  return Object.keys(data).map(d => {
+    const v = data[d];
+    v.key = d;
+    return v;
+  })
+}
+
+
 // may want to try the select tag to let user to select by country
 /*
  *
@@ -18,7 +27,6 @@ import {capitalizeFirstLetter, getStats} from './../utils.js'
  *
  *
  */
-
 export default class ButtonFilterChart extends Component {
   constructor(props) {
     super(props);
@@ -49,8 +57,23 @@ export default class ButtonFilterChart extends Component {
 
   render() {
     const {width, height} = this.props.dim;
+    console.log("Within Render",this.state.noc, this.props.data[this.state.noc]);
+    const dataRender = this.props.data[this.state.noc];
+    //const dataRender = dictToarray(this.props.data[this.props.noc]);
     return (
       <div>
+        <XYPlot>
+          width={width}
+          height={height}
+          getX={d => d[this.state.keyOfInterest]}
+          getY={d => d.key}>
+          <VerticalGridLines />
+          <HorizontalGridLines />
+          <XAxis />
+          <YAxis />
+          <MarkSeries
+            data={dataRender}/>
+        </XYPlot>
         <div>
           <form>
             <input type="text" maxLength="3" onChange={this.handlNOCChange} />

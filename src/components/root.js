@@ -35,7 +35,7 @@ class RootComponent extends React.Component {
   render() {
     const {loading, data} = this.state;
     const dimension = {height:1000, width:1000};
-    const cat = ["Gold", "Bronze", "Silver"];
+    const cat = ["Total", "Gold", "Silver", "Bronze"];
 
     if (loading) {
       return <h1>LOADING</h1>;
@@ -58,6 +58,7 @@ class RootComponent extends React.Component {
     }, {});
 
     console.log(medalsData);
+
     return (
       <div className="relative">
         <h1> Hello Explainable!</h1>
