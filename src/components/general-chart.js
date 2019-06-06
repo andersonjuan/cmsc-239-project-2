@@ -68,7 +68,11 @@ export default class ButtonFilterChart extends Component {
         <XYPlot
           width={plotWidth}
           height={plotHeight}
-          getX={d => d[this.state.keyOfInterest]}
+          getX={d => {
+            if (d[this.state.keyOfInterest] === undefined) {
+              return 0;
+            }
+            return d[this.state.keyOfInterest]}}
           getY={d => d.key}>
           <VerticalGridLines />
           <HorizontalGridLines />
@@ -77,7 +81,7 @@ export default class ButtonFilterChart extends Component {
           <MarkSeries
             className="Graph 1"
             cx={d => {
-              console.log(d);
+              console.log(d[this.state.keyOfInterest]);
               if (d[this.state.keyOfInterest] === undefined) {
                 return 0;
               }
