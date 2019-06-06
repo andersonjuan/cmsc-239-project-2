@@ -21,7 +21,7 @@ export function countBy(data, countKey) {
   return data.reduce((accum, d) => {
     const value = d[countKey];
     if (accum[value] === undefined) {
-      accum[value] = 0
+      accum[value] = 0;
     }
     accum[value]++;
     return accum;
@@ -55,8 +55,8 @@ export function getStats(data, key) {
 }
 
 export function getCatRange(data, key) {
-  const values = data.reduce((accum, d) =>  {
-    const v = d[key]
+  const values = data.reduce((accum, d) => {
+    const v = d[key];
     if (accum[v] === undefined) {
       accum[v] = 1;
     }
@@ -68,5 +68,5 @@ export function getCatRange(data, key) {
 
 // Source: https://stackoverflow.com/questions/1026069/how-do-i-make-the-first-letter-of-a-string-uppercase-in-javascript
 export function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }
