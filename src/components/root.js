@@ -4,6 +4,7 @@ import ButtonFilterChart from './general-chart';
 import SportsCountryChart from './sportsCountryChart';
 import {Intro, Conclusion, Para1, Para2, Para3, Para4, Para5} from '../text.js';
 import AthleteMedalCounts from './athlete-medal-counts';
+import AthleteFactors from './athlete-factors';
 
 import {categorizeBy,
           grabBy,
@@ -67,7 +68,7 @@ class RootComponent extends React.Component {
       return accumFinal;
     }, {});
 
-    const sportsData = createSportsDataset(data, 1970);
+    const sportsData = createSportsDataset(cleanedData, 1970);
     // console.log(athleteMedals);
     console.log(medalsData, medals, dimension)
     return (
@@ -88,8 +89,7 @@ class RootComponent extends React.Component {
   }
 }
 
-function createSportsDataset(data, year) {
-  const cleanedData = data.filter(d => (Number(d.Year) >= 1970));
+function createSportsDataset(cleanedData, year) {
   let sportsData = categorizeBy(cleanedData, 'NOC', 'Year')
   sportsData = Object.keys(sportsData).reduce((accumNOC, country) => {
 
@@ -98,24 +98,21 @@ function createSportsDataset(data, year) {
 
       accumYear[year] = countryData[year].reduce((accumSport, element) => {
         if (accumSport[element.Sport] === undefined) {
-            accumSport[element.Sport] = {total: 0};
+          accumSport[element.Sport] = {total: 0};
         }
         if (accumSport[element.Sport][element.Medal] === undefined) {
           accumSport[element.Sport][element.Medal] = 0;
         }
         accumSport[element.Sport][element.Medal]++;
         accumSport[element.Sport].total++;
-        return accumSport
+        return accumSport;
       }, {});
       return accumYear;
     }, {});
     return accumNOC;
-  }, {})
-
+  }, {});
   return sportsData;
 }
-
-
 
 RootComponent.displayName = 'RootComponent';
 export default RootComponent;
