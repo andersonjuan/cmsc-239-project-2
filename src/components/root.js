@@ -97,23 +97,14 @@ function createSportsDataset(cleanedData, year) {
 
       accumYear[year] = countryData[year].reduce((accumSport, element) => {
         if (accumSport[element.Sport] === undefined) {
-<<<<<<< HEAD
             accumSport[element.Sport] = {Total: 0};
-=======
-          accumSport[element.Sport] = {total: 0};
->>>>>>> 28d589f14f31c5ccfe6d0901250384741c5bfd6a
         }
         if (accumSport[element.Sport][element.Medal] === undefined) {
           accumSport[element.Sport][element.Medal] = 0;
         }
         accumSport[element.Sport][element.Medal]++;
-<<<<<<< HEAD
         accumSport[element.Sport].Total++;
-        return accumSport
-=======
-        accumSport[element.Sport].total++;
         return accumSport;
->>>>>>> 28d589f14f31c5ccfe6d0901250384741c5bfd6a
       }, {});
       return accumYear;
     }, {});
