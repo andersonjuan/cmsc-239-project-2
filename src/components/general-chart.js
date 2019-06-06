@@ -27,7 +27,7 @@ export default class ButtonFilterChart extends Component {
       legalNocs: Object.keys(this.props.data),
       yDomain: getYdomain(this.props.data),
       xDomain: getXdomain(this.props.data)
-      };
+    };
 
     this.handlNOCChange = this.handlNOCChange.bind(this);
     this.handleKOFchange = this.handleKOFchange.bind(this);
