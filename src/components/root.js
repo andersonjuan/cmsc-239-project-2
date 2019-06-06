@@ -3,6 +3,7 @@ import {csv} from 'd3-fetch';
 import {ButtonFilterChart} from './general-chart';
 import {SportsCountryChart} from './sportsCountryChart';
 import {Intro, Conclusion, Para1, Para2, Para3, Para4, Para5} from '../text.js';
+import AthleteMedalCounts from './athlete-medal-counts';
 
 import {categorizeBy,
           grabBy,
@@ -39,22 +40,38 @@ class RootComponent extends React.Component {
       return <h1>LOADING</h1>;
     }
     const cleanedData = data.filter(d => (Number(d.Year) >= 1970));
+    console.log('Cleaned Data');
+    console.log(cleanedData);
     let medalsData = categorizeBy(cleanedData, 'NOC', 'Year');
-
+    let athleteMedals = categorizeBy(cleanedData, 'Sport', 'Age');
+    console.log(athleteMedals);
     medalsData = Object.keys(medalsData).reduce((accumFinal, country) => {
       const countryData = medalsData[country];
-
       accumFinal[country] = Object.keys(countryData).reduce((accum, year) => {
         accum[year] = {total: countBy(countryData[year], 'Medal'),
           winter: countBy(countryData[year].filter(d => d.Season === 'Winter'), 'Medal'),
           summer: countBy(countryData[year].filter(d => d.Season === 'Summer'), 'Medal')};
         return accum;
       }, {});
-
       return accumFinal;
     }, {});
 
+    athleteMedals = Object.keys(athleteMedals).reduce((accumFinal, sport) => {
+      const sportData = athleteMedals[sport];
+      accumFinal[sport] = Object.keys(sportData).reduce((accum, age) => {
+        accum[age] = {total: countBy(sportData[age], 'Medal'),
+          winter: countBy(sportData[age].filter(d => d.Season === 'Winter'), 'Medal'),
+          summer: countBy(sportData[age].filter(d => d.Season === 'Summer'), 'Medal')};
+        return accum;
+      }, {});
+      return accumFinal;
+    }, {});
+
+<<<<<<< HEAD
     const sportsData = createSportsDataset(data, 1970)
+=======
+    console.log(athleteMedals);
+>>>>>>> 83304c372291ab99b6aca5d02ce856d1b4a1991c
     return (
       <div className="relative">
         <h1> All the Glitter is not Gold</h1>
@@ -65,6 +82,7 @@ class RootComponent extends React.Component {
         <Para2 />
         <SportsCountryChart data={sportsData} options={[...medals, "All"]} dim={dimension} />
         <Para3 />
+        <AthleteMedalCounts data={athleteMedals} options={cat} dim={dimension} />
         <Para4 />
         <Para5 />
         <Conclusion />

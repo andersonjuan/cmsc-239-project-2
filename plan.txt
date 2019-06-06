@@ -1,9 +1,9 @@
-Plan 
+Plan
 
-Data : 
+Data :
 Who has the most medals by type
 most medals by country
-most medals by sport 
+most medals by sport
 
 Approach :
 Country Analysis
@@ -12,25 +12,26 @@ Competitor Analysis
 	Maybe analyze body weights and body characterize
 
 
-Graphs: 
+Graphs:
 	Country Analysis
 		Medal Count between winter and spring - encode two different colors
-			Prefiltering through input box by NOC 
+			Prefiltering through input box by NOC
 			Buttons to choose between gold, silver or bronze
 		Medals by sports
-			Prefiltering through input box by NOC 
-	
+			Prefiltering through input box by NOC
+
 	Competitor Analysis
-		Zoom in graph of the competitors - amount of medals they win by age
-		Age, height, weight 
-			change summary stat 
-			by country 
+		Amount of medals they win by age
+      filtered by sports
+		Age, height, weight
+			change summary stat
+			by country
+    Amount of medals they by all three factors above
+      by sports
 
 
 Dynamics :
 Click and it pops info
 Filtering
-Highlighting 
-Mean, Median, Mode, Min, Max selection 
-
-
+Highlighting
+Mean, Median, Mode, Min, Max selection
