@@ -31,10 +31,10 @@ export default class ButtonFilterChart extends Component {
 
     this.handlNOCChange = this.handlNOCChange.bind(this);
     this.handleKOFchange = this.handleKOFchange.bind(this);
-  };
+  }
 
   handlNOCChange(event) {
-    event.persist()
+    event.persist();
     this.setState((state) => {
       const newQuerry = event.target.value.toUpperCase();
       if (this.state.legalNocs.includes(newQuerry)) {
@@ -45,7 +45,7 @@ export default class ButtonFilterChart extends Component {
   }
 
   handleKOFchange(newQuerry, e) {
-    console.log(newQuerry)
+    console.log(newQuerry);
     this.setState((state) => {
       state.keyOfInterest = newQuerry;
       return state;
@@ -74,7 +74,7 @@ export default class ButtonFilterChart extends Component {
             return d[this.state.keyOfInterest]}}>
           <VerticalGridLines />
           <HorizontalGridLines />
-          <XAxis />
+          <XAxis tickFormat={(v, i) => setYears(v)}/>
           <YAxis />
           <MarkSeries
             className="Graph 1"
@@ -105,6 +105,10 @@ export default class ButtonFilterChart extends Component {
   }
 }
 
+// converts the given axis into years to display
+function setYears(data, i) {
+  return data.toString();
+}
 
 function dictToarray(data) {
   return Object.keys(data).map(d => {
