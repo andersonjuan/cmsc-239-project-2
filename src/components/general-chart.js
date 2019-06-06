@@ -56,6 +56,7 @@ export default class ButtonFilterChart extends Component {
     const dataRender = dictToarray(this.props.data[this.state.noc]);
     const plotWidth = this.props.dim.width;
     const plotHeight = this.props.dim.height;
+
     return (
       <div>
         <XYPlot
@@ -121,16 +122,19 @@ function getRandomInt(max) {
 }
 
 function getXdomain(data) {
+  console.log("GETTING X DOMAIN");
   const results = Object.keys(data).reduce((accum, country) => {
     const dates = Object.keys(data[country])
     accum.min = Math.min(accum.min, ...dates);
     accum.max = Math.max(accum.max, ...dates);
     return accum;
   }, {min: Infinity, max: -Infinity});
+    console.log(results);
   return [results.min, results.max];
 }
 
 function getYdomain(data) {
+  console.log("GETTING Y DOMAIN");
   const results = Object.keys(data).reduce((accum, country) => {
     const local = Object.keys(data[country]).reduce((accumLocal, year) => {
 
@@ -149,6 +153,7 @@ function getYdomain(data) {
     return accum;
   }, {min: Infinity, max: -Infinity});
 
+  console.log(results);
   return [results.min, results.max];
 }
 

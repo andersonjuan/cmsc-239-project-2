@@ -1,7 +1,7 @@
 import React from 'react';
 import {csv} from 'd3-fetch';
-import {ButtonFilterChart} from './general-chart';
-import {SportsCountryChart} from './sportsCountryChart';
+import ButtonFilterChart from './general-chart';
+import SportsCountryChart from './sportsCountryChart';
 import {Intro, Conclusion, Para1, Para2, Para3, Para4, Para5} from '../text.js';
 import AthleteMedalCounts from './athlete-medal-counts';
 
@@ -40,11 +40,11 @@ class RootComponent extends React.Component {
       return <h1>LOADING</h1>;
     }
     const cleanedData = data.filter(d => (Number(d.Year) >= 1970));
-    console.log('Cleaned Data');
-    console.log(cleanedData);
+    // console.log('Cleaned Data');
+    // console.log(cleanedData);
     let medalsData = categorizeBy(cleanedData, 'NOC', 'Year');
     let athleteMedals = categorizeBy(cleanedData, 'Sport', 'Age');
-    console.log(athleteMedals);
+    // console.log(athleteMedals);
     medalsData = Object.keys(medalsData).reduce((accumFinal, country) => {
       const countryData = medalsData[country];
       accumFinal[country] = Object.keys(countryData).reduce((accum, year) => {
@@ -68,7 +68,8 @@ class RootComponent extends React.Component {
     }, {});
 
     const sportsData = createSportsDataset(data, 1970);
-    console.log(athleteMedals);
+    // console.log(athleteMedals);
+    console.log(medalsData, medals, dimension)
     return (
       <div className="relative">
         <h1> All the Glitter is not Gold</h1>
@@ -77,9 +78,7 @@ class RootComponent extends React.Component {
         <Para1 />
         <ButtonFilterChart data={medalsData} options={medals} dim={dimension} />
         <Para2 />
-        <SportsCountryChart data={sportsData} options={[...medals, "All"]} dim={dimension} />
         <Para3 />
-        <AthleteMedalCounts data={athleteMedals} options={cat} dim={dimension} />
         <Para4 />
         <Para5 />
         <Conclusion />
@@ -90,7 +89,6 @@ class RootComponent extends React.Component {
 
 function createSportsDataset(data, year) {
   const cleanedData = data.filter(d => (Number(d.Year) >= 1970));
-  console.log(cleanedData)
   let sportsData = categorizeBy(cleanedData, 'NOC', 'Year')
   sportsData = Object.keys(sportsData).reduce((accumNOC, country) => {
 
@@ -113,7 +111,6 @@ function createSportsDataset(data, year) {
     return accumNOC;
   }, {})
 
-  console.log(sportsData)
   return sportsData;
 }
 
