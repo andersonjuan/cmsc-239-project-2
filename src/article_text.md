@@ -6,14 +6,19 @@ Subject: The Olympics (years TBD)
 The Olympics is among the most well-known international competitions, rivaled only by
 the World Cup. The Olympics are a collection of athletic competitions that pits
 the very best from around the globe against each other to determine who among them
-are the best of the best in their respective sports.
+are the best of the best in their respective sports. The Olympics are broken into
+two different categories, winter and summer, with both occurring every four years.
+It is interesting to note that the winter and summer games are offset by two years
+from each other i.e. if the winter games occur in 2000 then the summer games
+happen in 2002.
 
 Countries often invest huge amounts of money into their Olympic teams with the
 hope that their athletes will bring home the coveted prizes of gold, silver,
 and bronze medals. Winning these medals gives country's bragging rights and
 other more, tangible rights such as sway over international sports organizations.
-While the intent of the games is to foster an equal field where athletes from diverse
-backgrounds can compete and win for their respective nations,  
+Knowing this, it's fairly easy to imagine that countries will do whatever it
+takes to ensure their medal count increases (who doesn't love good bragging rights?).
+So what does the distribution of medals among countries look like?
 
 [HERE IS THE COUNTRY GRAPH OF MEDALS, FILTERED BY SUMMER OR WINTER]
 
