@@ -5,19 +5,19 @@ import React from 'react';
 */
 
 export function Intro() {
-  return <div>{`
+  return (<div>{<p>{`
   The Olympics is among the most well-known international competitions, rivaled only by
-  the World Cup. The Olympics are a collection of athletic competitions that pits
+  the World Cup. The Olympics are a collection of athletic competitions that pit
   the very best from around the globe against each other to determine who among them
   are the best of the best in their respective sports. The Olympics are broken into
   two different categories, winter and summer, with both occurring every four years.
   It is interesting to note that the winter and summer games are offset by two years
   from each other i.e. if the winter games occur in 2000 then the summer games
-  happen in 2002.\n`}</div>;
+  happen in 2002.\n`}</p>}</div>);
 }
 
 export function Para1() {
-  return <div>{`
+  return (<div>{<p>{`
     Countries often invest huge amounts of money into their Olympic teams with the
     hope that their athletes will bring home the coveted prizes of gold, silver,
     and bronze medals. Winning these medals gives country's bragging rights and
@@ -25,22 +25,22 @@ export function Para1() {
     Knowing this, it's fairly easy to imagine that countries will do whatever it
     takes to ensure their medal count increases (who doesn't love good bragging rights?).
     So what does the distribution of medals among countries look like?
-    `}</div>;
+    `}</p>}</div>);
 }
 
 export function Para2() {
-  return <div>{`
+  return (<div>{<p>{`
     There is a perception that certain countries are dominant in specific sports
     while others seem to be great at just about every sport they send athletes to
     compete in. Take a look at the graphs below, which presents the results of
     data filtered by sport and country that you choose. Do certain countries win
     more medals than others? But let's be a little more specific and examine what
     types of medals they won: gold, silver, or that sweet sweet bronze.
-    `}</div>;
+    `}</p>}</div>);
 }
 
 export function Para3() {
-  return <div>{`
+  return (<div>{<p>{`
     As we can see, some countries rake in medals consistently! The dominance of some
     nations, such as the United States in Women's Gymnastics, is a well-known and
     well-documented phenomena. Other countries seem to have dominated early on
@@ -50,11 +50,11 @@ export function Para3() {
     Age tends to be a common factor thrown around when people
     talk about the 'viability' or 'long-term prospects' for individual players.
     But is there any relationship between an athletes age and the medals they win?
-    `}</div>;
+    `}</p>}</div>);
 }
 
 export function Para4() {
-  return <div>{`
+  return (<div>{<p>{`
     Now we know that age isn't by any means the major factor that determines whether
     someone wins a medal or not, is it? Taking into account other factors that affect
     an athlete's performance, such as height and weight, may be illustrative.
@@ -62,30 +62,30 @@ export function Para4() {
     do a bit more of a deep dive. Examining age, height, and weight by country using
     summary statistics as a way to give us a better idea of how a specific country's
     athletes perform along those factors.
-    `}</div>;
+    `}</p>}</div>);
 }
 
 export function Para5() {
-  return <div>{`
+  return (<div>{<p>{`
     Athletes from certain countries appear to be steadily getting taller! This
     could be a result of taller athletes performing better, but also quite likely
     that the impact of wars in the mid-20th century impacted heavily the people
     available to participate (clearly taller people fight better, right?). But does
     the increasing height of athletes from certain nations actually impact the
     medal outcome? I don't know about you, but we feel there's probably some other
-    factors in there that can we can dive into to get some more clarity.`}</div>;
+    factors in there that can we can dive into to get some more clarity.`}</p>}</div>);
 }
 
 // Holds the transition from the fourth graph to the last visualization
 // unwritten as it's unclear
 // export function Para6(props) {
-//   return <div>{``}</div>
+//   return (<div>{<p>{``}</p>}</div>)
 // }
 
 export function Conclusion() {
-  return <div>{`
+  return (<div>{<p>{`
     At this point we have a pretty good view of the Olympics and the Olympians
     who compete for their respective nations. We've tried to find a group of factors
     that could explain the amount of medal's participating nations have gotten in the
-    Olympics.`}</div>;
+    Olympics.`}</p>}</div>);
 }
