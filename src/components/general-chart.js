@@ -27,7 +27,7 @@ export default class ButtonFilterChart extends Component {
       legalNocs: Object.keys(this.props.data),
       yDomain: getYdomain(this.props.data),
       xDomain: getXdomain(this.props.data)
-    };
+      };
 
     this.handlNOCChange = this.handlNOCChange.bind(this);
     this.handleKOFchange = this.handleKOFchange.bind(this);
@@ -122,7 +122,7 @@ function getRandomInt(max) {
 
 function getXdomain(data) {
   const results = Object.keys(data).reduce((accum, country) => {
-    const dates = Object.keys(data[country]);
+    const dates = Object.keys(data[country])
     accum.min = Math.min(accum.min, ...dates);
     accum.max = Math.max(accum.max, ...dates);
     return accum;

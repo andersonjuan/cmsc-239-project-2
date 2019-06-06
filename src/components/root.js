@@ -7,14 +7,6 @@ import {Intro, Conclusion, Para1, Para2, Para3, Para4, Para5} from '../text.js';
 import {categorizeBy, grabBy, getStats, getCatRange, countBy} from './../utils.js'
 import ButtonFilterChart from './general-chart';
 
-const longBlock = `
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-`;
-
 class RootComponent extends React.Component {
   constructor() {
     super();
@@ -37,33 +29,39 @@ class RootComponent extends React.Component {
   render() {
     const {loading, data} = this.state;
     const dimension = {height:500, width:500};
-    const cat = ["Gold", "Silver", "Bronze"];
-
+    const cat = ['Gold', 'Silver', 'Bronze'];
+    const athletecat = ['Weight', 'Height', 'Age'];
     if (loading) {
       return <h1>LOADING</h1>;
     }
     const cleanedData = data.filter(d => (Number(d.Year) >= 1970));
-    let medalsData = categorizeBy(cleanedData, "NOC", "Year");
+    let medalsData = categorizeBy(cleanedData, 'NOC', 'Year');
 
     medalsData = Object.keys(medalsData).reduce((accumFinal, country) => {
       const countryData = medalsData[country];
 
       accumFinal[country] = Object.keys(countryData).reduce((accum, year) => {
-          accum[year] = {total: countBy(countryData[year], 'Medal'),
-                         winter: countBy(countryData[year].filter(d => d.Season === "Winter"), 'Medal'),
-                         summer: countBy(countryData[year].filter(d => d.Season === "Summer"), 'Medal')};
-          return accum;
+        accum[year] = {total: countBy(countryData[year], 'Medal'),
+          winter: countBy(countryData[year].filter(d => d.Season === 'Winter'), 'Medal'),
+          summer: countBy(countryData[year].filter(d => d.Season === 'Summer'), 'Medal')};
+        return accum;
       }, {});
 
       return accumFinal;
     }, {});
-    console.log(medalsData)
+    console.log(medalsData);
     return (
       <div className="relative">
         <h1> All the Glitter is not Gold</h1>
         <Intro />
         <div>{`The example data was loaded! There are ${medalsData.length} rows`}</div>
+        <Para1 />
         <ButtonFilterChart data={medalsData} options={cat} dim={dimension} />
+        <Para2 />
+
+        <Para3 />
+        <Para4 />
+        <Para5 />
         <Conclusion />
       </div>
     );
