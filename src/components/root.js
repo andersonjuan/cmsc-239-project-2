@@ -56,7 +56,7 @@ class RootComponent extends React.Component {
 
       return accumFinal;
     }, {});
-
+    console.log(medalsData)
     return (
       <div className="relative">
         <h1> All the Glitter is not Gold</h1>
