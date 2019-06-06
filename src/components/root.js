@@ -67,11 +67,8 @@ class RootComponent extends React.Component {
       return accumFinal;
     }, {});
 
-<<<<<<< HEAD
-    const sportsData = createSportsDataset(data, 1970)
-=======
+    const sportsData = createSportsDataset(data, 1970);
     console.log(athleteMedals);
->>>>>>> 83304c372291ab99b6aca5d02ce856d1b4a1991c
     return (
       <div className="relative">
         <h1> All the Glitter is not Gold</h1>
