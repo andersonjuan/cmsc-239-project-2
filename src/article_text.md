@@ -1,0 +1,66 @@
+Title: Untitled
+Subject: The Olympics (years TBD)
+
+(800 word to 1500 words, light in tone and readable for the general population)
+
+The Olympics is among the most well-known international competitions, rivaled only by
+the World Cup. The Olympics are a collection of athletic competitions that pits
+the very best from around the globe against each other to determine who among them
+are the best of the best in their respective sports.
+
+Countries often invest huge amounts of money into their Olympic teams with the
+hope that their athletes will bring home the coveted prizes of gold, silver,
+and bronze medals. Winning these medals gives country's bragging rights and
+other more, tangible rights such as sway over international sports organizations.
+While the intent of the games is to foster an equal field where athletes from diverse
+backgrounds can compete and win for their respective nations,  
+
+[HERE IS THE COUNTRY GRAPH OF MEDALS, FILTERED BY SUMMER OR WINTER]
+
+There is a perception that certain countries are dominant in specific sports
+while others seem to be great at just about every sport they send athletes to
+compete in. Take a look at the graphs below, which presents the results of
+data filtered by sport and country that you choose. Do certain countries win
+more medals than others? But let's be a little more specific and examine what
+types of medals they won: gold, silver, or that sweet sweet bronze.
+
+[HERE IS THE COUNTRY MEDALS BY SPORTS]
+
+As we can see, some countries rake in medals consistently! The dominance of some
+nations, such as the United States in Women's Gymnastics, is a well-known and
+well-documented phenomena. Other countries seem to have dominated early on
+in certain sports but have leveled off, while others have seen the reverse.
+Now those results could be related to the actual competitors each nation is
+sending to the games rather to some factor about those countries.
+Age tends to be a common factor thrown around when people
+talk about the 'viability' or 'long-term prospects' for individual players.
+But is there any relationship between an athletes age and the medals they win?
+
+[Zoom in graph of the competitors - amount of medals they win by age]
+
+Now we know that age isn't by any means the major factor that determines whether
+someone wins a medal or not, is it? Taking into account other factors that affect
+an athlete's performance, such as height and weight, may be illustrative.
+But rather than just showing some linear relationships out of the data, lets
+do a bit more of a deep dive. Examining age, height, and weight by country using
+summary statistics as a way to give us a better idea of how a specific country's
+athletes perform along those factors.
+
+[Age, height, weight --> change summary stat, by country ]
+
+Athletes from certain countries appear to be steadily getting taller! This
+could be a result of taller athletes performing better, but also quite likely
+that the impact of wars in the mid-20th century impacted heavily the people
+available to participate (clearly taller people fight better, right?). But does
+the increasing height of athletes from certain nations actually impact the
+medal outcome? I don't know about you, but we feel there's probably some other
+factors in there that can we can dive into to get some more clarity.
+
+[TRANSITION HERE TO THE NEXT THING]
+
+[placeholder for one more graph]
+
+At this point we have a pretty good view of the Olympics and the Olympians
+who compete for their respective nations. We've tried to find a group of factors
+that could explain the amount of medal's participating nations have gotten in the
+Olympics.
