@@ -5,6 +5,7 @@ import ButtonFilterChart from './general-chart';
 import {Intro, Conclusion, Para1, Para2, Para3, Para4, Para5} from '../text.js';
 
 import {categorizeBy, grabBy, getStats, getCatRange, countBy} from './../utils.js'
+import ButtonFilterChart from './general-chart';
 
 const longBlock = `
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
