@@ -35,13 +35,13 @@ class RootComponent extends React.Component {
 
   render() {
     const {loading, data} = this.state;
-    const dimension = {height:1000, width:1000};
-    const cat = ["Total", "Gold", "Silver", "Bronze"];
+    const dimension = {height:500, width:500};
+    const cat = ["Gold", "Silver", "Bronze"];
 
     if (loading) {
       return <h1>LOADING</h1>;
     }
-    const cleanedData = data.filter(d => (Number(d.Year) >= 2016));
+    const cleanedData = data.filter(d => (Number(d.Year) >= 1970));
     let medalsData = categorizeBy(cleanedData, "NOC", "Year");
 
     medalsData = Object.keys(medalsData).reduce((accumFinal, country) => {
@@ -56,8 +56,6 @@ class RootComponent extends React.Component {
 
       return accumFinal;
     }, {});
-
-    console.log(medalsData);
 
     return (
       <div className="relative">

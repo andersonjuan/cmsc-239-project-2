@@ -11,7 +11,7 @@ import {capitalizeFirstLetter, getStats} from './../utils.js'
 
 function dictToarray(data) {
   return Object.keys(data).map(d => {
-    const v = data[d];
+    const v = data[d].total;
     v.key = d;
     return v;
   })
@@ -32,7 +32,8 @@ export default class ButtonFilterChart extends Component {
     super(props);
     this.state = {
       noc: 'USA',
-      keyOfInterest: this.props.options[0]
+      keyOfInterest: this.props.options[0],
+      legalNocs: Object.keys(this.props.data)
       };
 
     this.handlNOCChange = this.handlNOCChange.bind(this);
@@ -42,8 +43,10 @@ export default class ButtonFilterChart extends Component {
   handlNOCChange(event) {
     event.persist()
     this.setState((state) => {
-      console.log(state)
-      state.noc = event.target.value.toUpperCase();
+      const newQuerry = event.target.value.toUpperCase();
+      if (this.state.legalNocs.includes(newQuerry)) {
+        state.noc = newQuerry;
+      }
       return state;
     });
   }
@@ -56,15 +59,15 @@ export default class ButtonFilterChart extends Component {
   }
 
   render() {
-    const {width, height} = this.props.dim;
-    console.log("Within Render",this.state.noc, this.props.data[this.state.noc]);
-    const dataRender = this.props.data[this.state.noc];
-    //const dataRender = dictToarray(this.props.data[this.props.noc]);
+    const dataRender = dictToarray(this.props.data[this.state.noc]);
+    const plotWidth = this.props.dim.width;
+    const plotHeight = this.props.dim.height;
+    console.log(this.props.data)
     return (
       <div>
-        <XYPlot>
-          width={width}
-          height={height}
+        <XYPlot
+          width={plotWidth}
+          height={plotHeight}
           getX={d => d[this.state.keyOfInterest]}
           getY={d => d.key}>
           <VerticalGridLines />
@@ -72,6 +75,15 @@ export default class ButtonFilterChart extends Component {
           <XAxis />
           <YAxis />
           <MarkSeries
+            className="Graph 1"
+            cx={d => {
+              console.log(d);
+              if (d[this.state.keyOfInterest] === undefined) {
+                return 0;
+              }
+              return d[this.state.keyOfInterest]}
+            }
+            cy={d => d.key}
             data={dataRender}/>
         </XYPlot>
         <div>
