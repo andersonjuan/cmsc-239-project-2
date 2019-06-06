@@ -1,5 +1,9 @@
 import React from 'react';
 
+/* All text below was taken from the src/article_text.md file
+  Be sure to check that the following text matches the authoratative source file
+*/
+
 export function Intro() {
   return <div>{`
   The Olympics is among the most well-known international competitions, rivaled only by
@@ -12,7 +16,7 @@ export function Intro() {
   happen in 2002.\n`}</div>;
 }
 
-export function Para1(props) {
+export function Para1() {
   return <div>{`
     Countries often invest huge amounts of money into their Olympic teams with the
     hope that their athletes will bring home the coveted prizes of gold, silver,
@@ -24,7 +28,7 @@ export function Para1(props) {
     `}</div>;
 }
 
-export function Para2(props) {
+export function Para2() {
   return <div>{`
     There is a perception that certain countries are dominant in specific sports
     while others seem to be great at just about every sport they send athletes to
@@ -35,7 +39,7 @@ export function Para2(props) {
     `}</div>;
 }
 
-export function Para3(props) {
+export function Para3() {
   return <div>{`
     As we can see, some countries rake in medals consistently! The dominance of some
     nations, such as the United States in Women's Gymnastics, is a well-known and
@@ -49,7 +53,7 @@ export function Para3(props) {
     `}</div>;
 }
 
-export function Para4(props) {
+export function Para4() {
   return <div>{`
     Now we know that age isn't by any means the major factor that determines whether
     someone wins a medal or not, is it? Taking into account other factors that affect
@@ -61,7 +65,7 @@ export function Para4(props) {
     `}</div>;
 }
 
-export function Para5(props) {
+export function Para5() {
   return <div>{`
     Athletes from certain countries appear to be steadily getting taller! This
     could be a result of taller athletes performing better, but also quite likely
@@ -73,11 +77,12 @@ export function Para5(props) {
 }
 
 // Holds the transition from the fourth graph to the last visualization
-// export function para6(props) {
+// unwritten as it's unclear
+// export function Para6(props) {
 //   return <div>{``}</div>
 // }
 
-export function Conclusion(props) {
+export function Conclusion() {
   return <div>{`
     At this point we have a pretty good view of the Olympics and the Olympians
     who compete for their respective nations. We've tried to find a group of factors
