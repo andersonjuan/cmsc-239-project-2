@@ -44,7 +44,6 @@ class RootComponent extends React.Component {
     const cleanedData = data.filter(d => (Number(d.Year) >= 2016));
     let medalsData = categorizeBy(cleanedData, "NOC", "Year");
 
-    console.log(medalsData);
     medalsData = Object.keys(medalsData).reduce((accumFinal, country) => {
       const countryData = medalsData[country];
 
@@ -57,8 +56,8 @@ class RootComponent extends React.Component {
 
       return accumFinal;
     }, {});
-    console.log(medalsData);
 
+    console.log(medalsData);
     return (
       <div className="relative">
         <h1> Hello Explainable!</h1>
