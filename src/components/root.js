@@ -68,16 +68,16 @@ class RootComponent extends React.Component {
     }, {});
 
     const sportsData = createSportsDataset(data, 1970);
-    // console.log(athleteMedals);
-    console.log(medalsData, medals, dimension)
+
+    console.log(sportsData);
     return (
       <div className="relative">
         <h1> All the Glitter is not Gold</h1>
         <Intro />
-        <div>{`The example data was loaded! There are ${medalsData.length} rows`}</div>
         <Para1 />
         <ButtonFilterChart data={medalsData} options={medals} dim={dimension} />
         <Para2 />
+        <SportsCountryChart data={sportsData} options={medals.concat("All")} dim={dimension} />
         <Para3 />
         <Para4 />
         <Para5 />
@@ -97,13 +97,13 @@ function createSportsDataset(data, year) {
 
       accumYear[year] = countryData[year].reduce((accumSport, element) => {
         if (accumSport[element.Sport] === undefined) {
-            accumSport[element.Sport] = {total: 0};
+            accumSport[element.Sport] = {Total: 0};
         }
         if (accumSport[element.Sport][element.Medal] === undefined) {
           accumSport[element.Sport][element.Medal] = 0;
         }
         accumSport[element.Sport][element.Medal]++;
-        accumSport[element.Sport].total++;
+        accumSport[element.Sport].Total++;
         return accumSport
       }, {});
       return accumYear;
