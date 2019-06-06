@@ -18,14 +18,13 @@ import {capitalizeFirstLetter, getStats} from './../utils.js';
  *
  *
  */
-export default class ButtonFilterChart extends Component {
+export default class SportsCountryChart extends Component {
   constructor(props) {
     super(props);
     this.state = {
       noc: Object.keys(this.props.data)[getRandomInt(Object.keys(this.props.data).length)],
       keyOfInterest: this.props.options[0],
       legalNocs: Object.keys(this.props.data),
-      yDomain: getYdomain(this.props.data),
       xDomain: getXdomain(this.props.data)
       };
 
@@ -127,28 +126,6 @@ function getXdomain(data) {
     accum.max = Math.max(accum.max, ...dates);
     return accum;
   }, {min: Infinity, max: -Infinity});
-  return [results.min, results.max];
-}
-
-function getYdomain(data) {
-  const results = Object.keys(data).reduce((accum, country) => {
-    const local = Object.keys(data[country]).reduce((accumLocal, year) => {
-
-      accumLocal.min = Math.min(accumLocal.min,
-                                  ...grabValues(data[country][year].winter, 'NA'),
-                                  ...grabValues(data[country][year].total, 'NA'),
-                                  ...grabValues(data[country][year].summer, 'NA'));
-      accumLocal.max = Math.max(accumLocal.max,
-                                  ...grabValues(data[country][year].winter, 'NA'),
-                                  ...grabValues(data[country][year].total, 'NA'),
-                                  ...grabValues(data[country][year].summer, 'NA'));
-      return accumLocal;
-    }, {min: Infinity, max: -Infinity})
-    accum.min = Math.min(accum.min, local.min);
-    accum.max = Math.max(accum.max, local.max);
-    return accum;
-  }, {min: Infinity, max: -Infinity});
-
   return [results.min, results.max];
 }
 

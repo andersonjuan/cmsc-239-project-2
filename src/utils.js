@@ -1,5 +1,5 @@
 // you can put util functions here if you want
-
+import {sports} from './constants.js'
 export function categorizeBy(data, groupByKey, sumByKey) {
   return data.reduce((accum, d) => {
     const groupV = d[groupByKey];
@@ -69,4 +69,11 @@ export function getCatRange(data, key) {
 // Source: https://stackoverflow.com/questions/1026069/how-do-i-make-the-first-letter-of-a-string-uppercase-in-javascript
 export function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+export function createEmptySportsDict() {
+  return sports.reduce((accum, d) => {
+    accum[capitalizeFirstLetter(d.toLowerCase())] = 0
+    return accum;
+  } , {});
 }
