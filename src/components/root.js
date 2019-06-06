@@ -1,6 +1,9 @@
 import React from 'react';
 import {csv} from 'd3-fetch';
 import ExampleChart from './example-chart';
+import ButtonFilterChart from './general-chart';
+
+import {categorizeBy, grabBy, getStats, getCatRange, countBy} from './../utils.js'
 
 const longBlock = `
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
@@ -31,21 +34,36 @@ class RootComponent extends React.Component {
 
   render() {
     const {loading, data} = this.state;
-    
-    console.log(data);
+    const dimension = {height:1000, width:1000};
+    const cat = ["Gold", "Bronze", "Silver"];
 
     if (loading) {
       return <h1>LOADING</h1>;
     }
-    
+
+    const cleanedData = data.filter(d => (Number(d.Year) >= 2016));
+    let medalsData = categorizeBy(cleanedData, "NOC", "Year");
+
+    console.log(medalsData);
+    medalsData = Object.keys(medalsData).reduce((accumFinal, country) => {
+      const countryData = medalsData[country];
+
+      accumFinal[country] = Object.keys(countryData).reduce((accum, year) => {
+          accum[year] = {total: countBy(countryData[year], 'Medal'),
+                         winter: countBy(countryData[year].filter(d => d.Season === "Winter"), 'Medal'),
+                         summer: countBy(countryData[year].filter(d => d.Season === "Summer"), 'Medal')};
+          return accum;
+      }, {});
+
+      return accumFinal;
+    }, {});
+    console.log(medalsData);
+
     return (
       <div className="relative">
         <h1> Hello Explainable!</h1>
-        <div>{`The example data was loaded! There are ${data.length} rows`}</div>
-        <ExampleChart data={data}/>
-        <div>{longBlock}</div>
-        <ExampleChart data={data}/>
-        <div>{longBlock}</div>
+        <div>{`The example data was loaded! There are ${medalsData.length} rows`}</div>
+        <ButtonFilterChart data={medalsData} options={cat} dim={dimension} />
       </div>
     );
   }
