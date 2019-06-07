@@ -65,8 +65,8 @@ export default class AthleteFactors extends Component {
             className="graph">
             <HorizontalGridLines />
             <VerticalGridLines />
-           <XAxis tickFormat={(v, i) => setYears(v)}/>
-           <YAxis />
+           <XAxis title="Year" tickFormat={(v, i) => setYears(v)}/>
+           <YAxis title={this.state.keyOfInterest}/>
            <HorizontalRectSeries
               onValueMouseOver={v => {console.log(v);this.setState({hintValue: v})}}
               onSeriesMouseOut={v => this.setState({hintValue: false})}

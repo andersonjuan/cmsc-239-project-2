@@ -72,8 +72,8 @@ export default class SportsCountryChart extends Component {
 
           <VerticalGridLines />
           <HorizontalGridLines />
-          <XAxis tickFormat={(v, i) => setYears(v)}/>
-          <YAxis />
+          <XAxis title="Year" tickFormat={(v, i) => setYears(v)}/>
+          <YAxis title="Number of Medals Won"/>
           <DiscreteColorLegend
             width={500}
             height={50}

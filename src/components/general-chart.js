@@ -54,6 +54,7 @@ export default class ButtonFilterChart extends Component {
     return (
       <div>
         <XYPlot
+          title="Medals per Year"
           animation
           width={plotWidth}
           height={plotHeight}
@@ -68,8 +69,8 @@ export default class ButtonFilterChart extends Component {
             className="graph">
           <VerticalGridLines />
           <HorizontalGridLines />
-          <XAxis tickFormat={(v, i) => setYears(v)}/>
-          <YAxis />
+          <XAxis tickFormat={(v, i) => setYears(v)} title="Year"/>
+          <YAxis title="Number of Medals Won"/>
           <MarkSeries
             className="Graph 1"
             cx={d => d.key}

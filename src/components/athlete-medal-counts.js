@@ -82,8 +82,8 @@ export default class AthleteMedalCounts extends Component {
             className="graph">
           <VerticalGridLines />
           <HorizontalGridLines />
-          <XAxis tickFormat={(v, i) => setYears(v)}/>
-          <YAxis />
+          <XAxis title="Age in Years" tickFormat={(v, i) => setYears(v)}/>
+          <YAxis title="Number of Medals Won"/>
           <MarkSeries
             className="Graph 4"
             cx={d => {

@@ -61,7 +61,8 @@ export function Para1() {
 }
 
 export function Para2() {
-  return (<div>{<p style={{backgroundColor: "#e3dedb"}}>{`
+  return (<div>{<p style={{backgroundColor: "#e3dedb"}}
+  >{`
     That was pretty cool, right?
 
     Well, you know the old saying: if some must be good, then more must be better!
