@@ -4,8 +4,7 @@ import {XYPlot,
           YAxis,
           HorizontalGridLines,
           VerticalGridLines,
-          MarkSeries,
-          Hint} from 'react-vis';
+          MarkSeries, DiscreteColorLegend} from 'react-vis';
 
 import {capitalizeFirstLetter, getStats} from './../utils.js';
 
@@ -59,6 +58,11 @@ export default class SportsCountryChart extends Component {
     console.log(dataRender)
     return (
       <div>
+      <DiscreteColorLegend
+        width={150}
+        height={200}
+        startTitle={"Legend"}
+        items={(Object.keys(dataRender).sort())} />
         <XYPlot
           width={this.props.dim.width}
           height={this.props.dim.height}
@@ -74,7 +78,7 @@ export default class SportsCountryChart extends Component {
           <HorizontalGridLines />
           <XAxis tickFormat={(v, i) => setYears(v)}/>
           <YAxis />
-          {Object.keys(dataRender).map((sport) => {
+          {(Object.keys(dataRender).sort()).map((sport) => {
               return (<MarkSeries
                 className={`Graph2-{sport}`}
                 key={sport}
@@ -85,7 +89,8 @@ export default class SportsCountryChart extends Component {
                   }
                   return d[this.state.keyOfInterest]}
                 }
-                data={dataRender[sport]}/>);
+                data={dataRender[sport]}
+                size={2}/>);
             })}
         </XYPlot>
         <div>

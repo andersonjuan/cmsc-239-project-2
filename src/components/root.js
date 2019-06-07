@@ -88,7 +88,8 @@ class RootComponent extends React.Component {
   }
 }
 
-function createSportsDataset(cleanedData, year) {
+function createSportsDataset(data, year) {
+  const cleanedData = data.filter(d => (Number(d.Year) >= year));
   let sportsData = categorizeBy(cleanedData, 'NOC', 'Year')
   sportsData = Object.keys(sportsData).reduce((accumNOC, country) => {
 
