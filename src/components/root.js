@@ -5,13 +5,16 @@ import SportsCountryChart from './sportsCountryChart';
 import {Intro, Conclusion, Para1, Para2, Para3, Para4, Para5} from '../text.js';
 import AthleteMedalCounts from './athlete-medal-counts';
 import AthleteFactors from './athlete-factors';
+import ParallelCoords from './paraCoordsChart';
+
+import {ANOCA, PANAM, OCA, EOC, ONOC} from './../constants.js';
 
 import {categorizeBy,
           grabBy,
           getStats,
           getCatRange,
           countBy,
-          createEmptySportsDict} from './../utils.js'
+          createRegionDict} from './../utils.js'
 
 class RootComponent extends React.Component {
   constructor() {
@@ -44,7 +47,7 @@ class RootComponent extends React.Component {
     // console.log('Cleaned Data');
     // console.log(cleanedData);
     let medalsData = categorizeBy(cleanedData, 'NOC', 'Year');
-    // console.log("Medals data:");
+    // ("Medals data:");
     // console.log(medalsData);
     let athleteMedals = categorizeBy(cleanedData, 'Sport', 'Age');
     // console.log("Athlete medals");
@@ -73,8 +76,11 @@ class RootComponent extends React.Component {
     }, {});
 
     const sportsData = createSportsDataset(data, 1970);
-    const athleteFactors = createAtheleteFactData(data, 1970)
-    console.log(athleteFactors)
+    const athleteFactors = createAtheleteFactData(data, 1970);
+    const paraCoords = cleanPara(data, 1970);
+    console.log(paraCoords)
+
+    // console.log(athleteFactors)
     return (
       <div className="relative">
         <h1> All the Glitter is not Gold</h1>
@@ -89,6 +95,8 @@ class RootComponent extends React.Component {
         <AthleteFactors data={athleteFactors} options={["Age", "Weight", "Height"]} dim={dimension}
         xDomain={[1970, 2018]}/>
         <Para5 />
+        <ParallelCoords data={paraCoords} options={["Min", "Max", "Median", "Mean"]} dim={{height:500, width:1000}}
+        xDomain={[1970, 2018]}/>
         <Conclusion />
       </div>
     );
@@ -153,6 +161,38 @@ function createAtheleteFactData(data, year) {
       return accum;
     }, {});
     accum[sport] = newData
+    return accum;
+  }, {});
+
+  return reducedData;
+}
+
+function cleanPara(data, year) {
+  const cleanedData = data.filter(d => (Number(d.Year) >= year));
+  const regions = createRegionDict();
+  let reducedData = cleanedData.reduce((newDataSet, person) => {
+    const country = person.NOC;
+    if (newDataSet[country] === undefined) {
+        newDataSet[country] = {};
+    }
+    if (newDataSet[country][person.Year] === undefined) {
+      newDataSet[country][person.Year] = {People: [], Data: []};
+    }
+
+    if (!(newDataSet[country][person.Year].People).includes(person.Name)) {
+        newDataSet[country][person.Year].People.push(person.Name);
+        person.region = regions[country];
+        newDataSet[country][person.Year].Data.push(person);
+    }
+    return newDataSet;
+  }, {});
+
+  reducedData = Object.keys(reducedData).reduce((accum, country) => {
+    const newData = {...reducedData[country]};
+    accum[country] = Object.keys(newData).reduce((accumLocal, year) => {
+        accumLocal[year] = newData[year].Data;
+        return accumLocal;
+      }, {});;
     return accum;
   }, {});
 

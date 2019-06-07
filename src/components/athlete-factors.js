@@ -56,7 +56,7 @@ export default class AthleteFactors extends Component {
   render() {
     const yDomain = getYdomain(this.props.data, this.state.sport, this.state.keyOfInterest);
     const formattedData = convertData(this.props.data, this.state.sport, this.state.keyOfInterest);
-    console.log(this.state.legalSports)
+    // console.log(this.state.legalSports)
     return (
       <div>
         <div className="chart">
@@ -69,7 +69,7 @@ export default class AthleteFactors extends Component {
             className="graph">
             <HorizontalGridLines />
             <VerticalGridLines />
-           <XAxis />
+           <XAxis tickFormat={(v, i) => setYears(v)}/>
            <YAxis />
            <HorizontalRectSeries
               data={formattedData.reduce((accum, d) => {
@@ -121,7 +121,6 @@ function getYdomain(data, sport, factor) {
   results.min = Math.min(results.min - 10, 0)
   results.max = results.max + 10
 
-  console.log([results.min, results.max]);
   return [results.min, results.max];
 }
 

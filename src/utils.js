@@ -1,5 +1,6 @@
 // you can put util functions here if you want
-import {sports} from './constants.js'
+
+import {SPORTS, ANOCA, PANAM, OCA, EOC, ONOC} from './constants.js';
 export function categorizeBy(data, groupByKey, sumByKey) {
   return data.reduce((accum, d) => {
     const groupV = d[groupByKey];
@@ -72,7 +73,7 @@ export function capitalizeFirstLetter(string) {
 }
 
 export function createEmptySportsDict() {
-  return sports.reduce((accum, d) => {
+  return SPORTS.reduce((accum, d) => {
     accum[capitalizeFirstLetter(d.toLowerCase())] = 0
     return accum;
   } , {});
@@ -81,4 +82,15 @@ export function createEmptySportsDict() {
 // Source : https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
 export function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
+}
+
+
+export function createRegionDict() {
+  ANOCA, PANAM, OCA, EOC, ONOC
+  const anoca = ANOCA.reduce((accum, d) => {accum[d]='ANOCA'; return accum;}, {});
+  const panam = PANAM.reduce((accum, d) => {accum[d]='PANAM'; return accum;}, {});
+  const oca = OCA.reduce((accum, d) => {accum[d]='OCA'; return accum;}, {});
+  const eoc = EOC.reduce((accum, d) => {accum[d]='EOC'; return accum;}, {});
+  const onoc = ONOC.reduce((accum, d) => {accum[d]='ONOC'; return accum;}, {});
+  return Object.assign({}, anoca, panam, oca, eoc, onoc);
 }
