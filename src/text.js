@@ -5,29 +5,29 @@ import React from 'react';
 */
 
 export function Intro() {
-  return (<div>{<p>{`
-  In total, the last two Olympics have been viewed by more than 5 billion people 
+  return (<div>{<p style={{backgroundColor: "#e3dedb"}} >{`
+  In total, the last two Olympics have been viewed by more than 5 billion people
   worldwide. However, many forget the origins of the Olympics, and their original purpose.
   But, how did we get here and what was the original purpose of these games?
-  
+
   The first Oympic games took place more than 2,700 years ago in Olympia in the south
   west of Greece. These early games were actually a religious festival, paying tribute
   to the Greek god Zeus, the king of all gods. Taking place once every four years, nearly
   50,000 people attended the first few Olympic games. Those that did in 720 BC saw, well, too much
   of Orspippos after he lost his shorts in a race.
-  
-  The games have developed substantically since the days of Orspippos. Now, the Olympics 
+
+  The games have developed substantically since the days of Orspippos. Now, the Olympics
   are a collection of athletic competitions that pit
-  the very best from around the globe against each other, and lack the religious compoent. 
+  the very best from around the globe against each other, and lack the religious compoent.
   Moreover, the games are now broken into
   two different categories, winter and summer. Each occurrs every four years.
   The winter and summer games are offset by two years
-  from each other such that 2008 was the year for the Summer Olympics while 2010 was a 
+  from each other such that 2008 was the year for the Summer Olympics while 2010 was a
   Winter Olympics year.\n`}</p>}</div>);
 }
 
 export function Para1() {
-  return (<div>{<p>{`
+  return (<div>{<p style={{backgroundColor: "#e3dedb"}}>{`
     In recent years, countries have invested huge amounts of money into their Olympic teams,
     hoping that their athletes will bring home the coveted prizes of gold, silver,
     and bronze medals (interestingly enough, medals weren't even introduced to the Olympics
@@ -41,7 +41,7 @@ export function Para1() {
 }
 
 export function Para2() {
-  return (<div>{<p>{`
+  return (<div>{<p style={{backgroundColor: "#e3dedb"}}>{`
     There is a perception that certain countries are dominant in specific sports
     while others seem to be great at just about every sport they send athletes to
     compete in. Take a look at the graphs below, which presents the results of
@@ -52,7 +52,7 @@ export function Para2() {
 }
 
 export function Para3() {
-  return (<div>{<p>{`
+  return (<div>{<p style={{backgroundColor: "#e3dedb"}}>{`
     As we can see, some countries rake in medals consistently! The dominance of some
     nations, such as the United States in Women's Gymnastics, is a well-known and
     well-documented phenomena. Other countries seem to have dominated early on
@@ -66,7 +66,7 @@ export function Para3() {
 }
 
 export function Para4() {
-  return (<div>{<p>{`
+  return (<div>{<p style={{backgroundColor: "#e3dedb"}}>{`
     Now we know that age isn't by any means the major factor that determines whether
     someone wins a medal or not, is it? Taking into account other factors that affect
     an athlete's performance, such as height and weight, may be illustrative.
@@ -78,7 +78,7 @@ export function Para4() {
 }
 
 export function Para5() {
-  return (<div>{<p>{`
+  return (<div>{<p style={{backgroundColor: "#e3dedb"}}>{`
     Athletes from certain countries appear to be steadily getting taller! This
     could be a result of taller athletes performing better, but also quite likely
     that the impact of wars in the mid-20th century impacted heavily the people
@@ -95,7 +95,7 @@ export function Para5() {
 // }
 
 export function Conclusion() {
-  return (<div>{<p>{`
+  return (<div>{<p style={{backgroundColor: "#e3dedb"}}>{`
     At this point we have a pretty good view of the Olympics and the Olympians
     who compete for their respective nations. We've tried to find a group of factors
     that could explain the amount of medal's participating nations have gotten in the
