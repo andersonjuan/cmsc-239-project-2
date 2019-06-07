@@ -68,10 +68,10 @@ class RootComponent extends React.Component {
       return accumFinal;
     }, {});
 
-    const sportsData = createSportsDataset(data, 1970);
-    const athleteFactors = createAtheleteFactData(data, 1970);
-    const paraCoords = cleanPara(data, 1970);
-    const countriesMap = NOCtoCountries(data, 1970)
+    const sportsData = createSportsDataset(cleanedData, 1970);
+    const athleteFactors = createAtheleteFactData(cleanedData, 1970);
+    const paraCoords = cleanPara(cleanedData, 1970);
+    const countriesMap = NOCtoCountries(cleanedData, 1970)
     console.log(countriesMap, Object.values(countriesMap))
 
     // console.log(athleteFactors)
@@ -98,7 +98,8 @@ class RootComponent extends React.Component {
 }
 
 function createSportsDataset(data, year) {
-  const cleanedData = data.filter(d => (Number(d.Year) >= year));
+  const cleanedData = data;
+  // const cleanedData = data.filter(d => (Number(d.Year) >= year));
   let sportsData = categorizeBy(cleanedData, 'NOC', 'Year')
   sportsData = Object.keys(sportsData).reduce((accumNOC, country) => {
 
@@ -124,7 +125,8 @@ function createSportsDataset(data, year) {
 }
 
 function createAtheleteFactData(data, year) {
-  const cleanedData = data.filter(d => (Number(d.Year) >= year));
+  const cleanedData = data;
+  // const cleanedData = data.filter(d => (Number(d.Year) >= year));
   let reducedData = cleanedData.reduce((newDataSet, person) => {
     const sport = person.Sport;
     if (newDataSet[sport] === undefined) {
@@ -162,7 +164,8 @@ function createAtheleteFactData(data, year) {
 }
 
 function cleanPara(data, year) {
-  const cleanedData = data.filter(d => (Number(d.Year) >= year));
+  const cleanedData = data;
+  // const cleanedData = data.filter(d => (Number(d.Year) >= year));
   const regions = createRegionDict();
   let reducedData = cleanedData.reduce((newDataSet, person) => {
     const country = person.NOC;
