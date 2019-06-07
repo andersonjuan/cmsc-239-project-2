@@ -6,7 +6,7 @@ import {XYPlot,
           VerticalGridLines,
           MarkSeries, DiscreteColorLegend} from 'react-vis';
 
-import {capitalizeFirstLetter, getStats} from './../utils.js';
+import {capitalizeFirstLetter, getStats, getRandomInt} from './../utils.js';
 
 // may want to try the select tag to let user to select by country
 /*
@@ -58,11 +58,6 @@ export default class SportsCountryChart extends Component {
     console.log(dataRender)
     return (
       <div>
-      <DiscreteColorLegend
-        width={150}
-        height={200}
-        startTitle={"Legend"}
-        items={(Object.keys(dataRender).sort())} />
         <XYPlot
           width={this.props.dim.width}
           height={this.props.dim.height}
@@ -73,7 +68,8 @@ export default class SportsCountryChart extends Component {
               return 0;
             }
             return d[this.state.keyOfInterest]}}
-            colorType="category">
+            colorType="category"
+            className="graph">
           <VerticalGridLines />
           <HorizontalGridLines />
           <XAxis tickFormat={(v, i) => setYears(v)}/>
@@ -92,6 +88,14 @@ export default class SportsCountryChart extends Component {
                 data={dataRender[sport]}
                 size={2}/>);
             })}
+            <DiscreteColorLegend
+              width={150}
+              height={200}
+              startTitle={"Legend"}
+              items={(Object.keys(dataRender).sort())}
+              className="legend"
+              layout="vetical" verticalAlign="middle" align="right"
+              />
         </XYPlot>
         <div>
           <form>
@@ -140,11 +144,6 @@ function convertSportSeries(data) {
     accum[d.sport] = cleaned[d.sport];
     return accum;
   }, {});
-}
-
-// Source : https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
-function getRandomInt(max) {
-  return Math.floor(Math.random() * Math.floor(max));
 }
 
 function getXdomain(data) {

@@ -77,3 +77,8 @@ export function createEmptySportsDict() {
     return accum;
   } , {});
 }
+
+// Source : https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+export function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}

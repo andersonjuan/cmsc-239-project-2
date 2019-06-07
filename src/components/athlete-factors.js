@@ -82,7 +82,8 @@ export default class AthleteFactors extends Component {
             if (d[this.state.keyOfInterest] === undefined) {
               return 0;
             }
-            return d[this.state.keyOfInterest]; }}>
+            return d[this.state.keyOfInterest]; }}
+            className="graph">
           <VerticalGridLines />
           <HorizontalGridLines />
           <XAxis tickFormat={(v, i) => setYears(v)}/>
