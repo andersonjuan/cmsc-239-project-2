@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+  jimport React, {Component} from 'react';
 
 import {RadialChart, Hint} from 'react-vis';
 
@@ -35,13 +35,23 @@ export default class ExampleChart extends Component {
           radius={140}
           getAngle={d => d.size}
           data={preppedData}
-          onValueMouseOver={v => this.setState({value: v})}
-          onSeriesMouseOut={v => this.setState({value: false})}
+          onValueMouseOver={v => this.setState({hintValue: v})}
+          onSeriesMouseOut={v => this.setState({hintValue: false})}
           width={300}
           height={300}
           padAngle={0.04}
         >
-          {value !== false && <Hint value={value} />}
+          {this.state.hintValue !== false &&
+            <Hint value={v}>
+              <div style={{background: 'black'}}>
+                <h3>Stats</h3>
+                <p>Min:{v.else.min}</p>
+                <p>Max:{v.else.max}</p>
+                <p>Median:{v.else.median}</p>
+                <p>First Quantile:{v.else.firstQ}</p>
+                <p>Third Quantile:{v.else.ThirdQ}</p>
+              </div>
+            </Hint>}
         </RadialChart>
         {Object.keys(data[0]).map(key => {
           return (<button
