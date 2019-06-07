@@ -4,10 +4,9 @@ import {LineSeries, XYPlot,
           YAxis,
           HorizontalGridLines,
           VerticalGridLines,
-          Hint, MarkSeries} from 'react-vis';
+          Hint, VerticalBarSeries, HorizontalRectSeries} from 'react-vis';
 
 import {min, max} from 'd3-array';
-import {scaleLinear} from 'd3-scale'
 import {capitalizeFirstLetter, getStats, getRandomInt} from './../utils.js';
 
 /*
@@ -55,13 +54,9 @@ export default class AthleteFactors extends Component {
   }
 
   render() {
-    const formattedData = convertData2(this.props.data, this.state.sport, this.state.keyOfInterest);
     const yDomain = getYdomain(this.props.data, this.state.sport, this.state.keyOfInterest);
-
-    console.log(formattedData)
-    // const distance = Math.abs(formattedData[1].year - formattedData[0].year) * 0.2;
-    // const xScale = scaleLinear().domain(this.state.xDomain).range([0,420]);
-    // const yScale = scaleLinear().domain(yDomain).range([0,420]);
+    const formattedData = convertData(this.props.data, this.state.sport, this.state.keyOfInterest);
+    console.log(this.state.legalSports)
     return (
       <div>
         <div className="chart">
@@ -72,33 +67,40 @@ export default class AthleteFactors extends Component {
             width={this.props.dim.width}
             colorType="category"
             className="graph">
+            <HorizontalGridLines />
+            <VerticalGridLines />
            <XAxis />
            <YAxis />
-           <HorizontalGridLines />
-           <VerticalGridLines />
-           <MarkSeries
-             cx={d => d.x}
-             cy={d => d.y}
-             data={formattedData.min}/>
-          <MarkSeries
-            cx={d => d.x}
-            cy={d => d.y}
-            data={formattedData.max}/>
-          <MarkSeries
-            cx={d => d.x}
-            cy={d => d.y}
-            data={formattedData.median}/>
-          <MarkSeries
-            cx={d => d.x}
-            cy={d => d.y}
-            data={formattedData.firstQ}/>
-          <MarkSeries
-            cx={d => d.x}
-            cy={d => d.y}
-            data={formattedData.thirdQ}/>
-
+           <HorizontalRectSeries
+              data={formattedData.reduce((accum, d) => {
+                accum.push({x: d.year+.1, x0: d.year-.1, y: d.min, y0: d.max, else: d})
+                return accum;
+              }, [])}/>
+           <HorizontalRectSeries
+              onValueMouseOver={d => console.log(d)}
+              data={formattedData.reduce((accum, d) => {
+                accum.push({x: d.year+1, x0: d.year-1, y: d.thirdQ, y0: d.firstQ, else: d})
+                return accum;
+              }, [])}/>
+          <HorizontalRectSeries
+             data={formattedData.reduce((accum, d) => {
+               accum.push({x: d.year+1.5, x0: d.year-1.5, y: d.min, y0: d.min, else: d})
+               return accum;
+             }, [])}/>
          </XYPlot>
        </div>
+       <div>
+         <form>
+           <input type="text" onChange={this.handleSportChange} />
+         </form>
+       </div>
+       {(this.props.options).length > 1 &&
+         this.props.options.map(opt => {
+           return (<button key={opt} onClick={this.handleKOFchange.bind(this, opt)}>
+             {capitalizeFirstLetter(opt)}
+           </button>);
+         })
+       }
       </div>
     );
   }
@@ -154,33 +156,4 @@ function removeNAN(array) {
   return array.filter(function (value) {
     return !Number.isNaN(value);
   });
-}
-
-function convertData2(data, sport, factor) {
-  return Object.keys(data[sport][factor]).reduce((accum, yearData) => {
-    const safe = removeNAN(data[sport][factor][yearData]).sort();
-    const instance = {firstQ: quartile(safe, .25),
-                        median: quartile(safe, .5),
-                        thirdQ: quartile(safe, .75),
-                        year: Number(yearData)};
-    const others = safe.reduce((accum, d) => {
-      accum.min  = (d < accum.min) ? d : accum.min;
-      accum.max  = (d > accum.max) ? d : accum.max;
-      accum.sum += d;
-      accum.count++;
-      return accum;
-    }, {min: Infinity, max: -Infinity, sum: 0, count: 0});
-
-    instance.min = others.min;
-    instance.max = others.max;
-    instance.mean = others.mean / others.count;
-    accum.data.push(instance);
-    accum.min.push({x: Number(yearData), y: instance.min});
-    accum.max.push({x: Number(yearData), y: instance.max});
-    accum.firstQ.push({x: Number(yearData), y: instance.firstQ});
-    accum.thirdQ.push({x: Number(yearData), y: instance.thirdQ});
-    accum.median.push({x: Number(yearData), y: instance.median});
-
-    return accum;
-  }, {data: [], min: [], max: [], firstQ: [], thirdQ: [], median: []});
 }
