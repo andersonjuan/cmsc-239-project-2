@@ -79,12 +79,12 @@ export default class AthleteFactors extends Component {
            <HorizontalRectSeries
               onValueMouseOver={d => console.log(d)}
               data={formattedData.reduce((accum, d) => {
-                accum.push({x: d.year+1, x0: d.year-1, y: d.thirdQ, y0: d.firstQ, else: d})
+                accum.push({x: d.year+0.9, x0: d.year-0.9, y: d.thirdQ, y0: d.firstQ, else: d})
                 return accum;
               }, [])}/>
           <HorizontalRectSeries
              data={formattedData.reduce((accum, d) => {
-               accum.push({x: d.year+1.5, x0: d.year-1.5, y: d.min, y0: d.min, else: d})
+               accum.push({x: d.year+0.9, x0: d.year-0.9, y: d.min, y0: d.min, else: d})
                return accum;
              }, [])}/>
          </XYPlot>
