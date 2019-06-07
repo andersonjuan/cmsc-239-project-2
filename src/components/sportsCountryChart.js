@@ -100,7 +100,7 @@ export default class SportsCountryChart extends Component {
           <form>
             <label> NOCs:
               <select value={this.state.noc} onChange={this.handlNOCChange}>
-              {this.state.legalNocs.map(d => {
+              {this.state.legalNocs.sort().map(d => {
                    return (<option key={d} value={d}>{d}</option>);
                })}
               </select>

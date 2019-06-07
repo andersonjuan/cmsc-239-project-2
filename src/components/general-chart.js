@@ -85,7 +85,7 @@ export default class ButtonFilterChart extends Component {
           <form>
             <label> NOCs:
               <select value={this.state.countriesReverse[this.state.noc]} onChange={this.handlNOCChange}>
-              {Object.keys(this.state.countries).map(d => {
+              {Object.keys(this.state.countries).sort().map(d => {
                    return (<option key={d} value={d}>{d}</option>);
                })}
               </select>

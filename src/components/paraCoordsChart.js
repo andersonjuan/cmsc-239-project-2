@@ -79,7 +79,7 @@ export default class ParallelCoords extends Component {
          <form>
           <label> Sports:
             <select value={this.state.sport} onChange={this.handleSportChange}>
-            {SPORTS.map(d => {
+            {SPORTS.sort().map(d => {
                  return (<option key={d} value={d}>{d}</option>);
              })}
             </select>

@@ -86,7 +86,7 @@ export default class AthleteFactors extends Component {
        <div>
          <form>
            <select value={this.state.sport} onChange={this.handleSportChange}>
-           {this.state.legalSports.map(d => {
+           {this.state.legalSports.sort().map(d => {
                 return (<option key={d} value={d}>
                           {capitalizeFirstLetter(d)}
                         </option>);
