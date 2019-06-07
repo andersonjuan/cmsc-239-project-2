@@ -9,7 +9,7 @@ import {XYPlot,
 
 import {min, max} from 'd3-array';
 
-import {capitalizeFirstLetter, getStats} from './../utils.js';
+import {capitalizeFirstLetter, getStats, getRandomInt} from './../utils.js';
 
 /*
  *  data = list of dictionaries with the necessary information to render the data.
@@ -59,17 +59,11 @@ export default class AthleteMedalCounts extends Component {
 
   render() {
     const dataRender = dictToarray(this.props.data[this.state.sport]);
-    const plotWidth = this.props.dim.width;
-    const plotHeight = this.props.dim.height;
-    console.log(this.props.options[0]);
-    console.log(dataRender);
-    console.log(this.state.yDomain);
-    console.log(this.state.xDomain);
     return (
-      <div>
+      <div className="graph">
         <XYPlot
-          width={plotWidth}
-          height={plotHeight}
+          width={this.props.dim.width}
+          height={this.props.dim.height}
           yDomain={this.state.yDomain}
           xDomain={this.state.xDomain}
           getX={d => {
@@ -82,7 +76,8 @@ export default class AthleteMedalCounts extends Component {
             if (d[this.state.keyOfInterest] === undefined) {
               return 0;
             }
-            return d[this.state.keyOfInterest]; }}>
+            return d[this.state.keyOfInterest]; }}
+            className="graph">
           <VerticalGridLines />
           <HorizontalGridLines />
           <XAxis tickFormat={(v, i) => setYears(v)}/>
@@ -132,11 +127,6 @@ function dictToarray(data) {
     v.key = d;
     return v;
   });
-}
-
-// Source : https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
-function getRandomInt(max) {
-  return Math.floor(Math.random() * Math.floor(max));
 }
 
 function getXdomain(data) {

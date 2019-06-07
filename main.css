@@ -99,3 +99,12 @@
   padding: 6px;
   text-transform: uppercase;
 }
+
+.graph {
+  margin: auto;
+}
+
+.legend {
+  position:relative;
+}
+
