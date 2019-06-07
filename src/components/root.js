@@ -44,7 +44,11 @@ class RootComponent extends React.Component {
     // console.log('Cleaned Data');
     // console.log(cleanedData);
     let medalsData = categorizeBy(cleanedData, 'NOC', 'Year');
+    console.log("Medals data:");
+    console.log(medalsData);
     let athleteMedals = categorizeBy(cleanedData, 'Sport', 'Age');
+    console.log("Athlete medals");
+    console.log(athleteMedals);
     // console.log(athleteMedals);
     medalsData = Object.keys(medalsData).reduce((accumFinal, country) => {
       const countryData = medalsData[country];
@@ -82,6 +86,7 @@ class RootComponent extends React.Component {
         <AthleteMedalCounts data={athleteMedals} options={medals} dim={dimension} />
         <Para4 />
         <Para5 />
+        <AthleteFactors data={medalsData} options={["Age", "Weight", "Height"]} dim={dimension} />
         <Conclusion />
       </div>
     );

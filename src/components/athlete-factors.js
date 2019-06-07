@@ -140,10 +140,10 @@ function getRandomInt(max) {
 }
 
 function getXdomain(data) {
-  const results = Object.keys(data).reduce((accum, sport) => {
-    const ages = Object.keys(data[sport]);
-    accum.min = Math.min(accum.min, (min(ages, d => Number(d))));
-    accum.max = Math.max(accum.max, (max(ages, d => Number(d))));
+  const results = Object.keys(data).reduce((accum, country) => {
+    const dates = Object.keys(data[country])
+    accum.min = Math.min(accum.min, ...dates);
+    accum.max = Math.max(accum.max, ...dates);
     return accum;
   }, {min: Infinity, max: -Infinity});
   return [results.min, results.max];
