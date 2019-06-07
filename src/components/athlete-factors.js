@@ -35,22 +35,16 @@ export default class AthleteFactors extends Component {
   }
 
   handleSportChange(event) {
-    event.persist();
-    this.setState((state) => {
-      let newQuerry = event.target.value;
-      newQuerry = capitalizeFirstLetter(newQuerry);
-      if (this.state.legalSports.includes(newQuerry)) {
-        state.sport = newQuerry;
-      }
-      return state;
-    });
+    console.log(event, event.target.value)
+    let newQuerry = event.target.value;
+    newQuerry = capitalizeFirstLetter(newQuerry);
+    if (this.state.legalSports.includes(newQuerry)) {
+      this.setState({sport: newQuerry})
+    }
   }
 
   handleKOFchange(newQuerry, e) {
-    this.setState((state) => {
-      state.keyOfInterest = newQuerry;
-      return state;
-    });
+    this.setState({keyOfInterest: newQuerry});
   }
 
   render() {
@@ -91,7 +85,13 @@ export default class AthleteFactors extends Component {
        </div>
        <div>
          <form>
-           <input type="text" onChange={this.handleSportChange} />
+           <select value={this.state.sport} onChange={this.handleSportChange}>
+           {this.state.legalSports.map(d => {
+                return (<option key={d} value={d}>
+                          {capitalizeFirstLetter(d)}
+                        </option>);
+            })}
+           </select>
          </form>
        </div>
        {(this.props.options).length > 1 &&

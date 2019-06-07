@@ -44,15 +44,10 @@ export default class ParallelCoords extends Component {
   }
 
   render() {
-    console.log(this.props.data,
-                  this.state.year,
-                  this.state.sport,
-                  this.state.stat);
     const renderData = generateParaData(this.props.data,
                                           this.state.year,
                                           this.state.sport,
                                           this.state.stat);
-    console.log(renderData)
     return (
       <div>
         <div className="chart">
@@ -61,10 +56,13 @@ export default class ParallelCoords extends Component {
            data={renderData.data}
            domains={renderData.domains}
            style={{
-             lines: {
-               strokeWidth: 1
-             },
-             axes: {
+             line: {
+                strokeOpacity: 1
+              },
+              deselectedLineStyle: {
+                strokeOpacity: 0.1
+              },
+              axes: {
                text: {
                  opacity: 1
                }
@@ -73,18 +71,25 @@ export default class ParallelCoords extends Component {
                textAnchor: 'right'
              }
            }}
-           showMarks
            width={this.props.dim.width}
            height={this.props.dim.height}
          />
        </div>
        <div>
          <form>
-          <label> Sport:
-           <input type="text" onChange={this.handleSportChange} />
+          <label> Sports:
+            <select value={this.state.sport} onChange={this.handleSportChange}>
+            {SPORTS.map(d => {
+                 return (<option key={d} value={d}>{d}</option>);
+             })}
+            </select>
           </label>
           <label> Year:
-          <input type="text" onChange={this.handleYearChange} />
+            <select value={this.state.year} onChange={this.handleYearChange}>
+            {createYears(this.state.legalYears).map(d => {
+                 return (<option key={d} value={d}>{d}</option>);
+             })}
+            </select>
           </label>
          </form>
        </div>
@@ -160,7 +165,6 @@ function generateParaData(data, year, sport, stat) {
 
           datapt.Medals = countryYear.reduce((acc, d) => {
             if (d.Medal !== "NA") {
-              console.log(country, d)
               return (acc +1);
             }
             return acc;
@@ -190,10 +194,37 @@ function generateParaData(data, year, sport, stat) {
     return datapoints;
   }, []);
   return {data: results,
-            domains: [{name: 'Region', domain: [0,domains.Region.length-1], getValue: d => d.regionNum},
+            domains: [{name: 'Region', domain: [0,domains.Region.length-1], getValue: d => d.regionNum, tickFormat: tickFormater},
                         {name: 'Age', domain: domains.Age, getValue: d => d.Age},
                         {name: 'Height', domain: domains.Height, getValue: d => d.Height},
                         {name: 'Weight', domain: domains.Weight, getValue: d => d.Weight},
                         {name: 'Medals', domain: domains.Medals, getValue: d => d.Medals}
                       ]};
+}
+
+function createYears(domain) {
+  const diff = Math.ceil((domain[1]-domain[0]) / 2);
+  const newArray = [...new Array(diff)].map((d, i) => {
+    return domain[0] + 2 * i;
+  });
+
+  if (newArray[newArray.length - 1] > domain[1]) {
+    newArray.pop()
+  }
+  return newArray;
+}
+function tickFormater(d) {
+  if (d === 0) {
+    return "ANOCA"
+  } else if (d === 1) {
+    return "PANAM"
+  } else if (d === 2) {
+    return "OCA"
+  } else if (d === 3) {
+    return "EOC"
+  } else if (d === 4) {
+    return "ONOC"
+  } else if (d === 5) {
+    return "Other"
+  }
 }

@@ -98,7 +98,13 @@ export default class SportsCountryChart extends Component {
         </XYPlot>
         <div>
           <form>
-            <input type="text" maxLength="3" onChange={this.handlNOCChange} />
+            <label> NOCs:  
+              <select value={this.state.noc} onChange={this.handlNOCChange}>
+              {this.state.legalNocs.map(d => {
+                   return (<option key={d} value={d}>{d}</option>);
+               })}
+              </select>
+            </label>
           </form>
         </div>
         {(this.props.options).length > 1 &&

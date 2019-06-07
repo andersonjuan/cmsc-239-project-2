@@ -26,7 +26,8 @@ export default class ButtonFilterChart extends Component {
       keyOfInterest: this.props.options[0],
       legalNocs: Object.keys(this.props.data),
       yDomain: getYdomain(this.props.data),
-      xDomain: getXdomain(this.props.data)
+      xDomain: getXdomain(this.props.data),
+      countries: getCountries(this.props.data)
     };
 
     this.handlNOCChange = this.handlNOCChange.bind(this);
@@ -34,21 +35,22 @@ export default class ButtonFilterChart extends Component {
   }
 
   handlNOCChange(event) {
-    event.persist();
-    this.setState((state) => {
-      const newQuerry = event.target.value.toUpperCase();
-      if (this.state.legalNocs.includes(newQuerry)) {
-        state.noc = newQuerry;
-      }
-      return state;
-    });
+    // event.persist();
+    // this.setState((state) => {
+    //   const newQuerry = event.target.value.toUpperCase();
+    //   if (this.state.legalNocs.includes(newQuerry)) {
+    //     state.noc = newQuerry;
+    //   }
+    //   return state;
+    // });
+    const newQuerry = event.target.value.toUpperCase();
+    if (this.state.legalNocs.includes(newQuerry)) {
+      this.setState({noc: newQuerry});
+    }
   }
 
   handleKOFchange(newQuerry, e) {
-    this.setState((state) => {
-      state.keyOfInterest = newQuerry;
-      return state;
-    });
+    this.setState({keyOfInterest: newQuerry});
   }
 
   render() {
@@ -87,7 +89,13 @@ export default class ButtonFilterChart extends Component {
         </XYPlot>
         <div>
           <form>
-            <input type="text" maxLength="3" onChange={this.handlNOCChange} />
+            <label> NOCs:
+              <select value={this.state.noc} onChange={this.handlNOCChange}>
+              {this.state.legalNocs.map(d => {
+                   return (<option key={d} value={d}>{d}</option>);
+               })}
+              </select>
+            </label>
           </form>
         </div>
         {(this.props.options).length > 1 &&
@@ -154,4 +162,15 @@ function grabValues(data, keyToIgnore) {
     }
     return accum;
   }, [])
+}
+
+function getCountries(data) {
+  console.log(data);
+  // return data.reduce((accum, d) => {
+  //   if (accum === undefined) {
+  //     d.NOC =
+  //   }
+  //   return accum;
+  // }, {})
+  return [0,1]
 }

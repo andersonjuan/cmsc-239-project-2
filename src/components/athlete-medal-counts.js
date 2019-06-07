@@ -38,22 +38,24 @@ export default class AthleteMedalCounts extends Component {
   }
 
   handleSportChange(event) {
-    event.persist();
-    this.setState((state) => {
-      let newQuerry = event.target.value;
-      newQuerry = capitalizeFirstLetter(newQuerry);
-      if (this.state.legalSports.includes(newQuerry)) {
-        state.sport = newQuerry;
-      }
-      return state;
-    });
+    // event.persist();
+    // this.setState((state) => {
+    //   let newQuerry = event.target.value;
+    //   newQuerry = capitalizeFirstLetter(newQuerry);
+    //   if (this.state.legalSports.includes(newQuerry)) {
+    //     state.sport = newQuerry;
+    //   }
+    //   return state;
+    // });
+    let newQuerry = event.target.value;
+    newQuerry = capitalizeFirstLetter(newQuerry);
+    if (this.state.legalSports.includes(newQuerry)) {
+      this.setState({sport: newQuerry});
+    }
   }
 
   handleKOFchange(newQuerry, e) {
-    this.setState((state) => {
-      state.keyOfInterest = newQuerry;
-      return state;
-    });
+    this.setState({keyOfInterest: newQuerry});
   }
 
   render() {
@@ -95,11 +97,18 @@ export default class AthleteMedalCounts extends Component {
               }
               return d[this.state.keyOfInterest]; }
             }
+            size={3}
             data={dataRender}/>
         </XYPlot>
         <div>
           <form>
-            <input type="text" onChange={this.handleSportChange} />
+            <label> Sports:
+              <select value={this.state.sport} onChange={this.handleSportChange}>
+              {this.state.legalSports.map(d => {
+                   return (<option key={d} value={d}>{d}</option>);
+               })}
+              </select>
+            </label>
           </form>
         </div>
         {(this.props.options).length > 1 &&
