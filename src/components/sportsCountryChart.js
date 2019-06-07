@@ -67,8 +67,8 @@ export default class SportsCountryChart extends Component {
               return 0;
             }
             return d[this.state.keyOfInterest]}}
-            colorType="category"
-            className="graph">
+          colorType="category"
+          className="graph">
           <VerticalGridLines />
           <HorizontalGridLines />
           <XAxis tickFormat={(v, i) => setYears(v)}/>

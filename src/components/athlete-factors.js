@@ -4,7 +4,7 @@ import {LineSeries, XYPlot,
           YAxis,
           HorizontalGridLines,
           VerticalGridLines,
-          Hint} from 'react-vis';
+          Hint, MarkSeries} from 'react-vis';
 
 import {min, max} from 'd3-array';
 import {scaleLinear} from 'd3-scale'
@@ -55,12 +55,13 @@ export default class AthleteFactors extends Component {
   }
 
   render() {
-    const formattedData = convertData(this.props.data, this.state.sport, this.state.keyOfInterest);
+    const formattedData = convertData2(this.props.data, this.state.sport, this.state.keyOfInterest);
     const yDomain = getYdomain(this.props.data, this.state.sport, this.state.keyOfInterest);
 
-    const distance = Math.abs(formattedData[1].year - formattedData[0].year) * 0.2;
-    const xScale = scaleLinear().domain(this.state.xDomain).range([0,420]);
-    const yScale = scaleLinear().domain(yDomain).range([0,420]);
+    console.log(formattedData)
+    // const distance = Math.abs(formattedData[1].year - formattedData[0].year) * 0.2;
+    // const xScale = scaleLinear().domain(this.state.xDomain).range([0,420]);
+    // const yScale = scaleLinear().domain(yDomain).range([0,420]);
     return (
       <div>
         <div className="chart">
@@ -68,29 +69,34 @@ export default class AthleteFactors extends Component {
             xDomain={this.state.xDomain}
             yDomain={yDomain}
             height={this.props.dim.height}
-            width={this.props.dim.width}>
+            width={this.props.dim.width}
+            colorType="category"
+            className="graph">
            <XAxis />
            <YAxis />
            <HorizontalGridLines />
            <VerticalGridLines />
-           <g
-             transform={`translate(40,40)`}
-           >
-            {formattedData.map((d, i) => {
-              console.log(d.year);
-              console.log(i);
-              console.log(d.thirdQ);
-              console.log(Math.abs(d.thirdQ - d.firstQ));
-              return (
-                <rect
-                  key={i}
-                  x={xScale(d.year)}
-                  width={yScale(distance * 4)}
-                  y={d.thirdQ}
-                  height={Math.abs(yScale(d.thirdQ) - yScale(d.firstQ))}
-                  fill={"black"} />);})
-            }
-           </g>
+           <MarkSeries
+             cx={d => d.x}
+             cy={d => d.y}
+             data={formattedData.min}/>
+          <MarkSeries
+            cx={d => d.x}
+            cy={d => d.y}
+            data={formattedData.max}/>
+          <MarkSeries
+            cx={d => d.x}
+            cy={d => d.y}
+            data={formattedData.median}/>
+          <MarkSeries
+            cx={d => d.x}
+            cy={d => d.y}
+            data={formattedData.firstQ}/>
+          <MarkSeries
+            cx={d => d.x}
+            cy={d => d.y}
+            data={formattedData.thirdQ}/>
+
          </XYPlot>
        </div>
       </div>
@@ -122,7 +128,6 @@ function quartile(array, percent) {
 }
 
 function convertData(data, sport, factor) {
-  console.log(data[sport][factor])
   return Object.keys(data[sport][factor]).reduce((accum, yearData) => {
     const safe = removeNAN(data[sport][factor][yearData]).sort();
     const instance = {firstQ: quartile(safe, .25),
@@ -151,26 +156,31 @@ function removeNAN(array) {
   });
 }
 
-//
-// function renderBoxes(data) {
-//     const distance = Math.abs(data[1].year - data[0].year) * 0.2;
-//     console.log(distance);
-//     return (
-//         data.map((d, i) => {
-//           return (
-//             <g
-//               transform={`translate(${d.year})`}
-//               key={i}
-//             >
-//               <rect
-//                 x={0}
-//                 width={Math.max(distance * 4, 0)}
-//                 y={d.thirdQ}
-//                 height={Math.abs(d.thirdQ - d.firstQ)}
-//                 fill={"black"}
-//               />
-//             </g>
-//           );
-//         })
-//     );
-// }
+function convertData2(data, sport, factor) {
+  return Object.keys(data[sport][factor]).reduce((accum, yearData) => {
+    const safe = removeNAN(data[sport][factor][yearData]).sort();
+    const instance = {firstQ: quartile(safe, .25),
+                        median: quartile(safe, .5),
+                        thirdQ: quartile(safe, .75),
+                        year: Number(yearData)};
+    const others = safe.reduce((accum, d) => {
+      accum.min  = (d < accum.min) ? d : accum.min;
+      accum.max  = (d > accum.max) ? d : accum.max;
+      accum.sum += d;
+      accum.count++;
+      return accum;
+    }, {min: Infinity, max: -Infinity, sum: 0, count: 0});
+
+    instance.min = others.min;
+    instance.max = others.max;
+    instance.mean = others.mean / others.count;
+    accum.data.push(instance);
+    accum.min.push({x: Number(yearData), y: instance.min});
+    accum.max.push({x: Number(yearData), y: instance.max});
+    accum.firstQ.push({x: Number(yearData), y: instance.firstQ});
+    accum.thirdQ.push({x: Number(yearData), y: instance.thirdQ});
+    accum.median.push({x: Number(yearData), y: instance.median});
+
+    return accum;
+  }, {data: [], min: [], max: [], firstQ: [], thirdQ: [], median: []});
+}
