@@ -6,21 +6,33 @@ import React from 'react';
 
 export function Intro() {
   return (<div>{<p>{`
-  The Olympics is among the most well-known international competitions, rivaled only by
-  the World Cup. The Olympics are a collection of athletic competitions that pit
-  the very best from around the globe against each other to determine who among them
-  are the best of the best in their respective sports. The Olympics are broken into
-  two different categories, winter and summer, with both occurring every four years.
-  It is interesting to note that the winter and summer games are offset by two years
-  from each other i.e. if the winter games occur in 2000 then the summer games
-  happen in 2002.\n`}</p>}</div>);
+  In total, the last two Olympics have been viewed by more than 5 billion people 
+  worldwide. However, many forget the origins of the Olympics, and their original purpose.
+  But, how did we get here and what was the original purpose of these games?
+  
+  The first Oympic games took place more than 2,700 years ago in Olympia in the south
+  west of Greece. These early games were actually a religious festival, paying tribute
+  to the Greek god Zeus, the king of all gods. Taking place once every four years, nearly
+  50,000 people attended the first few Olympic games. Those that did in 720 BC saw, well, too much
+  of Orspippos after he lost his shorts in a race.
+  
+  The games have developed substantically since the days of Orspippos. Now, the Olympics 
+  are a collection of athletic competitions that pit
+  the very best from around the globe against each other, and lack the religious compoent. 
+  Moreover, the games are now broken into
+  two different categories, winter and summer. Each occurrs every four years.
+  The winter and summer games are offset by two years
+  from each other such that 2008 was the year for the Summer Olympics while 2010 was a 
+  Winter Olympics year.\n`}</p>}</div>);
 }
 
 export function Para1() {
   return (<div>{<p>{`
-    Countries often invest huge amounts of money into their Olympic teams with the
-    hope that their athletes will bring home the coveted prizes of gold, silver,
-    and bronze medals. Winning these medals gives country's bragging rights and
+    In recent years, countries have invested huge amounts of money into their Olympic teams,
+    hoping that their athletes will bring home the coveted prizes of gold, silver,
+    and bronze medals (interestingly enough, medals weren't even introduced to the Olympics
+    until 1896; before that, the winners were simply crowned with olive wreaths).
+    Winning these medals a country bragging rights and
     other more, tangible rights such as sway over international sports organizations.
     Knowing this, it's fairly easy to imagine that countries will do whatever it
     takes to ensure their medal count increases (who doesn't love good bragging rights?).
