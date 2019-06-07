@@ -13,10 +13,9 @@ export default class ParallelCoords extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sport: Object.keys(this.props.data)[getRandomInt(Object.keys(this.props.data).length)],
+      sport: "Swimming",
       year: 2016,
       stat: this.props.options[0],
-      legalSports: Object.keys(this.props.data),
       legalYears: this.props.years
     };
 
@@ -28,14 +27,14 @@ export default class ParallelCoords extends Component {
   handleSportChange(event) {
     let newQuerry = event.target.value;
     newQuerry = capitalizeFirstLetter(newQuerry);
-    if (this.state.legalSports.includes(newQuerry)) {
+    if (SPORTS.includes(newQuerry)) {
         this.setState({sport: newQuerry});
     }
   }
 
   handleYearChange(event) {
     let newQuerry = Number(event.target.value);
-    if (newQuerry >= this.state.legalYears[0] && newQuerry <= this.state.legalYears[1]) {
+    if (newQuerry >= this.state.legalYears[0] && newQuerry <= this.state.legalYears[1] && newQuerry % 2 === 0) {
       this.setState({year: newQuerry});
     }
   }
@@ -74,7 +73,7 @@ export default class ParallelCoords extends Component {
                textAnchor: 'right'
              }
            }}
-           tickFormat={t => ''}
+           showMarks
            width={this.props.dim.width}
            height={this.props.dim.height}
          />
@@ -107,12 +106,11 @@ function generateParaData(data, year, sport, stat) {
                       Age: [Infinity, -Infinity],
                       Height: [Infinity, -Infinity],
                       Weight: [Infinity, -Infinity],
-                      Medals: [0,3]};
+                      Medals: [Infinity, -Infinity]};
 
   const results = Object.keys(data).reduce((datapoints, country) => {
     if (data[country][year] !== undefined) {
-      const countryYear = data[country][year].filter(d => {return d => d.Sport === sport;});
-
+      const countryYear = data[country][year].filter(d => {return d.Sport === sport;});
       if (countryYear.length != 0) {
         const datapt = {name: country, Country: country, Region: countryYear[0].region}
         const age = countryYear.reduce((acc, d) => {acc.push(Number(d.Age)); return acc;}, []).filter(d => !isNaN(d));
@@ -140,9 +138,10 @@ function generateParaData(data, year, sport, stat) {
           }
 
           if (stat === "Mean") {
-            datapt.Age = Math.mean(...age);
-            datapt.Height = Math.mean(...height);
-            datapt.Weight = Math.mean(...weight);
+
+            datapt.Age = age.reduce((acc, d) => acc + d, 0) / age.length;
+            datapt.Height = height.reduce((acc, d) => acc + d, 0) / age.length;
+            datapt.Weight = weight.reduce((acc, d) => acc + d, 0) / age.length;
           } else if (stat === "Max") {
             datapt.Age = Math.max(...age);
             datapt.Height = Math.max(...height);
@@ -157,31 +156,34 @@ function generateParaData(data, year, sport, stat) {
             datapt.Height = Math.min(...height);
             datapt.Weight = Math.min(...weight);
           }
+          // console.log(datapt.Age, datapt.Height, datapt.Weight)
 
           datapt.Medals = countryYear.reduce((acc, d) => {
             if (d.Medal !== "NA") {
+              console.log(country, d)
               return (acc +1);
             }
             return acc;
           }, 0);
-          if (datapt.Height === Infinity) {
-            datapt.Height = 0;
+
+          if (datapt.Weight !== undefined && datapt.Height !== undefined && datapt.Age !== undefined
+              && datapt.Weight !== Infinity && datapt.Height !== Infinity && datapt.Age !== Infinity) {
+            datapt.else = countryYear
+            datapoints.push(datapt);
+            domains.Country.push(datapt.NOC);
+
+            domains.Medals[0] = (domains.Medals[0] > datapt.Medals) ? datapt.Medals : domains.Medals[0];
+            domains.Medals[1] = (domains.Medals[1] < datapt.Medals) ? datapt.Medals : domains.Medals[1];
+
+            domains.Age[0] = (domains.Age[0] > datapt.Age) ? datapt.Age : domains.Age[0];
+            domains.Age[1] = (domains.Age[1] < datapt.Age) ? datapt.Age : domains.Age[1];
+
+            domains.Height[0] = (domains.Height[0] > datapt.Height) ? datapt.Height : domains.Height[0];
+            domains.Height[1] = (domains.Height[1] < datapt.Height) ? datapt.Height : domains.Height[1];
+
+            domains.Weight[0] = (domains.Weight[0] > datapt.Weight) ? datapt.Weight : domains.Weight[0];
+            domains.Weight[1] = (domains.Weight[1] < datapt.Weight) ? datapt.Weight : domains.Weight[1];
           }
-          if (datapt.Weight === Infinity) {
-            datapt.Weight = 0;
-          }
-
-          datapoints.push(datapt);
-
-          domains.Country.push(datapt.NOC);
-          domains.Age[0] = (domains.Age[0] > datapt.Age) ? datapt.Age : domains.Age[0];
-          domains.Age[1] = (domains.Age[1] < datapt.Age) ? datapt.Age : domains.Age[1];
-
-          domains.Height[0] = (domains.Height[0] > datapt.Height) ? datapt.Height : domains.Height[0];
-          domains.Height[1] = (domains.Height[1] < datapt.Height) ? datapt.Height : domains.Height[1];
-
-          domains.Weight[0] = (domains.Weight[0] > datapt.Weight) ? datapt.Weight : domains.Weight[0];
-          domains.Weight[1] = (domains.Weight[1] < datapt.Weight) ? datapt.Weight : domains.Weight[1];
         }
       }
     }

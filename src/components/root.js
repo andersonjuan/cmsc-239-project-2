@@ -96,7 +96,7 @@ class RootComponent extends React.Component {
         xDomain={[1970, 2018]}/>
         <Para5 />
         <ParallelCoords data={paraCoords} options={["Min", "Max", "Median", "Mean"]} dim={{height:500, width:1000}}
-        xDomain={[1970, 2018]}/>
+        years={[1970, 2018]}/>
         <Conclusion />
       </div>
     );
