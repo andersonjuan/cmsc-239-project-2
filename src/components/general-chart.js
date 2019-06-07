@@ -61,6 +61,7 @@ export default class ButtonFilterChart extends Component {
     return (
       <div>
         <XYPlot
+          animation
           width={plotWidth}
           height={plotHeight}
           yDomain={this.state.yDomain}

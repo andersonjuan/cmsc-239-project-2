@@ -63,6 +63,7 @@ export default class AthleteMedalCounts extends Component {
     return (
       <div className="graph">
         <XYPlot
+          animation
           width={this.props.dim.width}
           height={this.props.dim.height}
           yDomain={this.state.yDomain}
