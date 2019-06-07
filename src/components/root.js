@@ -44,15 +44,8 @@ class RootComponent extends React.Component {
       return <h1>LOADING</h1>;
     }
     const cleanedData = data.filter(d => (Number(d.Year) >= 1970));
-    // console.log('Cleaned Data');
-    // console.log(cleanedData);
     let medalsData = categorizeBy(cleanedData, 'NOC', 'Year');
-    // ("Medals data:");
-    // console.log(medalsData);
     let athleteMedals = categorizeBy(cleanedData, 'Sport', 'Age');
-    // console.log("Athlete medals");
-    // console.log(athleteMedals);
-    // console.log(athleteMedals);
     medalsData = Object.keys(medalsData).reduce((accumFinal, country) => {
       const countryData = medalsData[country];
       accumFinal[country] = Object.keys(countryData).reduce((accum, year) => {
@@ -78,7 +71,8 @@ class RootComponent extends React.Component {
     const sportsData = createSportsDataset(data, 1970);
     const athleteFactors = createAtheleteFactData(data, 1970);
     const paraCoords = cleanPara(data, 1970);
-    console.log(paraCoords)
+    const countriesMap = NOCtoCountries(data, 1970)
+    console.log(countriesMap, Object.values(countriesMap))
 
     // console.log(athleteFactors)
     return (
@@ -86,7 +80,7 @@ class RootComponent extends React.Component {
         <h1> All the Glitter is not Gold</h1>
         <Intro />
         <Para1 />
-        <ButtonFilterChart data={medalsData} options={medals} dim={dimension} />
+        <ButtonFilterChart data={medalsData} options={medals} dim={dimension} countries={countriesMap}/>
         <Para2 />
         <SportsCountryChart data={sportsData} options={medals.concat("All")} dim={dimension} />
         <Para3 />
@@ -199,6 +193,14 @@ function cleanPara(data, year) {
   return reducedData;
 }
 
+function NOCtoCountries(data, year) {
+  return data.filter(d => (Number(d.Year) >= year)).reduce((accum, d) => {
+    if (accum[d.Team] === undefined) {
+      accum[d.Team] = d.NOC;
+    }
+    return accum;
+  }, {});
+}
 
 RootComponent.displayName = 'RootComponent';
 export default RootComponent;

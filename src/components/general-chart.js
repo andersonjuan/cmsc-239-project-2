@@ -27,7 +27,7 @@ export default class ButtonFilterChart extends Component {
       legalNocs: Object.keys(this.props.data),
       yDomain: getYdomain(this.props.data),
       xDomain: getXdomain(this.props.data),
-      countries: getCountries(this.props.data)
+      countries: this.props.countries
     };
 
     this.handlNOCChange = this.handlNOCChange.bind(this);
@@ -43,7 +43,8 @@ export default class ButtonFilterChart extends Component {
     //   }
     //   return state;
     // });
-    const newQuerry = event.target.value.toUpperCase();
+    const newQuerry = this.state.countries[event.target.value];
+
     if (this.state.legalNocs.includes(newQuerry)) {
       this.setState({noc: newQuerry});
     }
@@ -92,7 +93,7 @@ export default class ButtonFilterChart extends Component {
           <form>
             <label> NOCs:
               <select value={this.state.noc} onChange={this.handlNOCChange}>
-              {this.state.legalNocs.map(d => {
+              {Object.keys(this.state.countries).map(d => {
                    return (<option key={d} value={d}>{d}</option>);
                })}
               </select>
@@ -163,15 +164,4 @@ function grabValues(data, keyToIgnore) {
     }
     return accum;
   }, [])
-}
-
-function getCountries(data) {
-  console.log(data);
-  // return data.reduce((accum, d) => {
-  //   if (accum === undefined) {
-  //     d.NOC =
-  //   }
-  //   return accum;
-  // }, {})
-  return [0,1]
 }
