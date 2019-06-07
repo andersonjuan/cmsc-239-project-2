@@ -45,7 +45,6 @@ export default class ButtonFilterChart extends Component {
   }
 
   handleKOFchange(newQuerry, e) {
-    console.log(newQuerry);
     this.setState((state) => {
       state.keyOfInterest = newQuerry;
       return state;
@@ -79,7 +78,6 @@ export default class ButtonFilterChart extends Component {
             className="Graph 1"
             cx={d => d.key}
             cy={d => {
-              console.log(d[this.state.keyOfInterest]);
               if (d[this.state.keyOfInterest] === undefined) {
                 return 0;
               }

@@ -50,7 +50,6 @@ export default class AthleteMedalCounts extends Component {
   }
 
   handleKOFchange(newQuerry, e) {
-    console.log(newQuerry);
     this.setState((state) => {
       state.keyOfInterest = newQuerry;
       return state;
@@ -91,7 +90,6 @@ export default class AthleteMedalCounts extends Component {
               return d.key;
             }}
             cy={d => {
-              console.log(d[this.state.keyOfInterest]);
               if (d[this.state.keyOfInterest] === undefined) {
                 return 0;
               }
@@ -155,10 +153,10 @@ function getYdomain(data) {
     }, {min: Infinity, max: -Infinity})
     accum.min = Math.min(accum.min, local.min);
     accum.max = Math.max(accum.max, local.max);
-    console.log(data[sport], sport, accum);
+    // console.log(data[sport], sport, accum);
     return accum;
   }, {min: Infinity, max: -Infinity});
-  console.log(results);
+  // console.log(results);
   return [results.min, results.max];
 }
 

@@ -1,15 +1,14 @@
 import React, {Component} from 'react';
-import {XYPlot,
+import {LineSeries, XYPlot,
           XAxis,
           YAxis,
           HorizontalGridLines,
           VerticalGridLines,
-          MarkSeries,
           Hint} from 'react-vis';
 
 import {min, max} from 'd3-array';
-
-import {capitalizeFirstLetter, getStats} from './../utils.js';
+import {scaleLinear} from 'd3-scale'
+import {capitalizeFirstLetter, getStats, getRandomInt} from './../utils.js';
 
 /*
  *  data = list of dictionaries with the necessary information to render the data.
@@ -29,8 +28,7 @@ export default class AthleteFactors extends Component {
       sport: Object.keys(this.props.data)[getRandomInt(Object.keys(this.props.data).length)],
       keyOfInterest: this.props.options[0],
       legalSports: Object.keys(this.props.data),
-      yDomain: getYdomain(this.props.data),
-      xDomain: getXdomain(this.props.data)
+      xDomain: this.props.xDomain
     };
 
     this.handleSportChange = this.handleSportChange.bind(this);
@@ -50,7 +48,6 @@ export default class AthleteFactors extends Component {
   }
 
   handleKOFchange(newQuerry, e) {
-    console.log(newQuerry);
     this.setState((state) => {
       state.keyOfInterest = newQuerry;
       return state;
@@ -58,65 +55,44 @@ export default class AthleteFactors extends Component {
   }
 
   render() {
-    const dataRender = dictToarray(this.props.data[this.state.sport]);
-    const plotWidth = this.props.dim.width;
-    const plotHeight = this.props.dim.height;
-    console.log(this.props.options[0]);
-    console.log(dataRender);
-    console.log(this.state.yDomain);
-    console.log(this.state.xDomain);
+    const formattedData = convertData(this.props.data, this.state.sport, this.state.keyOfInterest);
+    const yDomain = getYdomain(this.props.data, this.state.sport, this.state.keyOfInterest);
+
+    const distance = Math.abs(formattedData[1].year - formattedData[0].year) * 0.2;
+    const xScale = scaleLinear().domain(this.state.xDomain).range([0,420]);
+    const yScale = scaleLinear().domain(yDomain).range([0,420]);
     return (
       <div>
-        <XYPlot
-          width={plotWidth}
-          height={plotHeight}
-          yDomain={this.state.yDomain}
-          xDomain={this.state.xDomain}
-          getX={d => {
-            if (isNaN(d.key)) {
-              return 0;
+        <div className="chart">
+         <XYPlot
+            xDomain={this.state.xDomain}
+            yDomain={yDomain}
+            height={this.props.dim.height}
+            width={this.props.dim.width}>
+           <XAxis />
+           <YAxis />
+           <HorizontalGridLines />
+           <VerticalGridLines />
+           <g
+             transform={`translate(40,40)`}
+           >
+            {formattedData.map((d, i) => {
+              console.log(d.year);
+              console.log(i);
+              console.log(d.thirdQ);
+              console.log(Math.abs(d.thirdQ - d.firstQ));
+              return (
+                <rect
+                  key={i}
+                  x={xScale(d.year)}
+                  width={yScale(distance * 4)}
+                  y={d.thirdQ}
+                  height={Math.abs(yScale(d.thirdQ) - yScale(d.firstQ))}
+                  fill={"black"} />);})
             }
-            return d.key;
-          }}
-          getY={d => {
-            if (d[this.state.keyOfInterest] === undefined) {
-              return 0;
-            }
-            return d[this.state.keyOfInterest]; }}
-            className="graph">
-          <VerticalGridLines />
-          <HorizontalGridLines />
-          <XAxis tickFormat={(v, i) => setYears(v)}/>
-          <YAxis />
-          <MarkSeries
-            className="Graph 4"
-            cx={d => {
-              if (isNaN(d.key)) {
-                return 0;
-              }
-              return d.key;
-            }}
-            cy={d => {
-              console.log(d[this.state.keyOfInterest]);
-              if (d[this.state.keyOfInterest] === undefined) {
-                return 0;
-              }
-              return d[this.state.keyOfInterest]; }
-            }
-            data={dataRender}/>
-        </XYPlot>
-        <div>
-          <form>
-            <input type="text" onChange={this.handleSportChange} />
-          </form>
-        </div>
-        {(this.props.options).length > 1 &&
-          this.props.options.map(opt => {
-            return (<button key={opt} onClick={this.handleKOFchange.bind(this, opt)}>
-              {capitalizeFirstLetter(opt)}
-            </button>);
-          })
-        }
+           </g>
+         </XYPlot>
+       </div>
       </div>
     );
   }
@@ -127,57 +103,74 @@ function setYears(data, i) {
   return data.toString();
 }
 
-function dictToarray(data) {
-  return Object.keys(data).map(d => {
-    const v = data[d].total;
-    v.key = d;
-    return v;
+function getYdomain(data, sport, factor) {
+  let results = Object.keys(data[sport][factor]).reduce((accum, year) => {
+    accum.min = Math.min(accum.min, ...removeNAN(data[sport][factor][year]));
+    accum.max = Math.max(accum.max, ...removeNAN(data[sport][factor][year]));
+    return accum;
+  }, {min: Infinity, max: -Infinity});
+
+  results.min = Math.min(results.min - 10, 0)
+  results.max = results.max + 10
+
+  console.log([results.min, results.max]);
+  return [results.min, results.max];
+}
+
+function quartile(array, percent) {
+  return array[Math.round(array.length * percent)];
+}
+
+function convertData(data, sport, factor) {
+  console.log(data[sport][factor])
+  return Object.keys(data[sport][factor]).reduce((accum, yearData) => {
+    const safe = removeNAN(data[sport][factor][yearData]).sort();
+    const instance = {firstQ: quartile(safe, .25),
+                        median: quartile(safe, .5),
+                        thirdQ: quartile(safe, .75),
+                        year: Number(yearData)};
+    const others = safe.reduce((accum, d) => {
+      accum.min  = (d < accum.min) ? d : accum.min;
+      accum.max  = (d > accum.max) ? d : accum.max;
+      accum.sum += d;
+      accum.count++;
+      return accum;
+    }, {min: Infinity, max: -Infinity, sum: 0, count: 0});
+
+    instance.min = others.min;
+    instance.max = others.max;
+    instance.mean = others.mean / others.count;
+    accum.push(instance);
+    return accum;
+  }, []);
+}
+
+function removeNAN(array) {
+  return array.filter(function (value) {
+    return !Number.isNaN(value);
   });
 }
 
-// Source : https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
-function getRandomInt(max) {
-  return Math.floor(Math.random() * Math.floor(max));
-}
-
-function getXdomain(data) {
-  const results = Object.keys(data).reduce((accum, country) => {
-    const dates = Object.keys(data[country])
-    accum.min = Math.min(accum.min, ...dates);
-    accum.max = Math.max(accum.max, ...dates);
-    return accum;
-  }, {min: Infinity, max: -Infinity});
-  return [results.min, results.max];
-}
-
-function getYdomain(data) {
-  const results = Object.keys(data).reduce((accum, sport) => {
-    const local = Object.keys(data[sport]).reduce((accumLocal, age) => {
-
-      accumLocal.min = Math.min(accumLocal.min,
-                                  ...grabValues(data[sport][age].winter, 'NA'),
-                                  ...grabValues(data[sport][age].total, 'NA'),
-                                  ...grabValues(data[sport][age].summer, 'NA'));
-      accumLocal.max = Math.max(accumLocal.max,
-                                  ...grabValues(data[sport][age].winter, 'NA'),
-                                  ...grabValues(data[sport][age].total, 'NA'),
-                                  ...grabValues(data[sport][age].summer, 'NA'));
-      return accumLocal;
-    }, {min: Infinity, max: -Infinity})
-    accum.min = Math.min(accum.min, local.min);
-    accum.max = Math.max(accum.max, local.max);
-    console.log(data[sport], sport, accum);
-    return accum;
-  }, {min: Infinity, max: -Infinity});
-  console.log(results);
-  return [results.min, results.max];
-}
-
-function grabValues(data, keyToIgnore) {
-  return Object.keys(data).reduce((accum, key) => {
-    if (key !== keyToIgnore) {
-      accum.push(data[key])
-    }
-    return accum;
-  }, [])
-}
+//
+// function renderBoxes(data) {
+//     const distance = Math.abs(data[1].year - data[0].year) * 0.2;
+//     console.log(distance);
+//     return (
+//         data.map((d, i) => {
+//           return (
+//             <g
+//               transform={`translate(${d.year})`}
+//               key={i}
+//             >
+//               <rect
+//                 x={0}
+//                 width={Math.max(distance * 4, 0)}
+//                 y={d.thirdQ}
+//                 height={Math.abs(d.thirdQ - d.firstQ)}
+//                 fill={"black"}
+//               />
+//             </g>
+//           );
+//         })
+//     );
+// }

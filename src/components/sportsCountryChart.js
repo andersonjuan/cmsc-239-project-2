@@ -55,7 +55,6 @@ export default class SportsCountryChart extends Component {
 
   render() {
     const dataRender = convertSportSeries(this.props.data[this.state.noc]);
-    console.log(dataRender)
     return (
       <div>
         <XYPlot

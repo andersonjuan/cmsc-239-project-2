@@ -44,11 +44,11 @@ class RootComponent extends React.Component {
     // console.log('Cleaned Data');
     // console.log(cleanedData);
     let medalsData = categorizeBy(cleanedData, 'NOC', 'Year');
-    console.log("Medals data:");
-    console.log(medalsData);
+    // console.log("Medals data:");
+    // console.log(medalsData);
     let athleteMedals = categorizeBy(cleanedData, 'Sport', 'Age');
-    console.log("Athlete medals");
-    console.log(athleteMedals);
+    // console.log("Athlete medals");
+    // console.log(athleteMedals);
     // console.log(athleteMedals);
     medalsData = Object.keys(medalsData).reduce((accumFinal, country) => {
       const countryData = medalsData[country];
@@ -73,7 +73,8 @@ class RootComponent extends React.Component {
     }, {});
 
     const sportsData = createSportsDataset(data, 1970);
-
+    const athleteFactors = createAtheleteFactData(data, 1970)
+    console.log(athleteFactors)
     return (
       <div className="relative">
         <h1> All the Glitter is not Gold</h1>
@@ -85,8 +86,9 @@ class RootComponent extends React.Component {
         <Para3 />
         <AthleteMedalCounts data={athleteMedals} options={medals} dim={dimension} />
         <Para4 />
+        <AthleteFactors data={athleteFactors} options={["Age", "Weight", "Height"]} dim={dimension}
+        xDomain={[1970, 2018]}/>
         <Para5 />
-        <AthleteFactors data={medalsData} options={["Age", "Weight", "Height"]} dim={dimension} />
         <Conclusion />
       </div>
     );
@@ -118,6 +120,45 @@ function createSportsDataset(data, year) {
   }, {});
   return sportsData;
 }
+
+function createAtheleteFactData(data, year) {
+  const cleanedData = data.filter(d => (Number(d.Year) >= year));
+  let reducedData = cleanedData.reduce((newDataSet, person) => {
+    const sport = person.Sport;
+    if (newDataSet[sport] === undefined) {
+        newDataSet[sport] = {Weight: {}, Age: {}, Height: {}}
+    }
+    if ((newDataSet[sport].Weight)[person.Year] === undefined) {
+      (newDataSet[sport].Weight)[person.Year] = {People: [], Data: []};
+      (newDataSet[sport].Age)[person.Year]= [];
+      (newDataSet[sport].Height)[person.Year] = [];
+    }
+
+    if (!((newDataSet[sport].Weight[person.Year].People).includes(person.Name))) {
+      if (!(Number.isNaN(Number(person.Weight)) ||
+              Number.isNaN(Number(person.Age)) ||
+              Number.isNaN(Number(person.Height)))) {
+        (newDataSet[sport].Weight)[person.Year].Data.push(Number(person.Weight));
+        (newDataSet[sport].Weight)[person.Year].People.push(person.Name);
+        (newDataSet[sport].Age)[person.Year].push(Number(person.Age));
+        (newDataSet[sport].Height)[person.Year].push(Number(person.Height));
+      }
+    }
+    return newDataSet;
+  }, {});
+  reducedData = Object.keys(reducedData).reduce((accum, sport) => {
+    const newData = {...reducedData[sport]};
+    newData.Weight = Object.keys(newData.Weight).reduce((accum, year) => {
+      accum[year] = (newData.Weight)[year].Data;
+      return accum;
+    }, {});
+    accum[sport] = newData
+    return accum;
+  }, {});
+
+  return reducedData;
+}
+
 
 RootComponent.displayName = 'RootComponent';
 export default RootComponent;
