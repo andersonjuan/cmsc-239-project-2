@@ -27,7 +27,8 @@ export default class ButtonFilterChart extends Component {
       legalNocs: Object.keys(this.props.data),
       yDomain: getYdomain(this.props.data),
       xDomain: getXdomain(this.props.data),
-      countries: this.props.countries
+      countries: this.props.countries,
+      countriesReverse: reverseMap(this.props.countries)
     };
 
     this.handlNOCChange = this.handlNOCChange.bind(this);
@@ -35,16 +36,7 @@ export default class ButtonFilterChart extends Component {
   }
 
   handlNOCChange(event) {
-    // event.persist();
-    // this.setState((state) => {
-    //   const newQuerry = event.target.value.toUpperCase();
-    //   if (this.state.legalNocs.includes(newQuerry)) {
-    //     state.noc = newQuerry;
-    //   }
-    //   return state;
-    // });
     const newQuerry = this.state.countries[event.target.value];
-
     if (this.state.legalNocs.includes(newQuerry)) {
       this.setState({noc: newQuerry});
     }
@@ -92,7 +84,7 @@ export default class ButtonFilterChart extends Component {
         <div>
           <form>
             <label> NOCs:
-              <select value={this.state.noc} onChange={this.handlNOCChange}>
+              <select value={this.state.countriesReverse[this.state.noc]} onChange={this.handlNOCChange}>
               {Object.keys(this.state.countries).map(d => {
                    return (<option key={d} value={d}>{d}</option>);
                })}
@@ -164,4 +156,11 @@ function grabValues(data, keyToIgnore) {
     }
     return accum;
   }, [])
+}
+
+function reverseMap(dict) {
+  return Object.keys(dict).reduce((accum, d) => {
+    accum[dict[d]] = d;
+    return accum;
+  }, {});
 }

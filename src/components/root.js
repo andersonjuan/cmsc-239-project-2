@@ -197,9 +197,10 @@ function cleanPara(data, year) {
 }
 
 function NOCtoCountries(data, year) {
-  return data.filter(d => (Number(d.Year) >= year)).reduce((accum, d) => {
-    if (accum[d.Team] === undefined) {
-      accum[d.Team] = d.NOC;
+  return data.reduce((accum, d) => {
+    const country = (d.Team).replace(/[.,\/#!$%\^&\*;:{}=\-_`~()0-9]/g,"").replace(/[0-9]/g, "")
+    if (accum[country] === undefined) {
+      accum[country] = d.NOC;
     }
     return accum;
   }, {});
