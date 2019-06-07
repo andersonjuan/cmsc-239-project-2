@@ -72,7 +72,7 @@ class RootComponent extends React.Component {
     const athleteFactors = createAtheleteFactData(cleanedData, 1970);
     const paraCoords = cleanPara(cleanedData, 1970);
     const countriesMap = NOCtoCountries(cleanedData, 1970)
-    console.log(countriesMap, Object.values(countriesMap))
+    // console.log(countriesMap, Object.values(countriesMap))
 
     // console.log(athleteFactors)
     return (
