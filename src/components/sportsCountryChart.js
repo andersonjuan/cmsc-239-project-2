@@ -69,10 +69,18 @@ export default class SportsCountryChart extends Component {
             return d[this.state.keyOfInterest]}}
           colorType="category"
           className="graph">
+
           <VerticalGridLines />
           <HorizontalGridLines />
           <XAxis tickFormat={(v, i) => setYears(v)}/>
           <YAxis />
+          <DiscreteColorLegend
+            width={500}
+            height={50}
+            startTitle={"Legend"}
+            items={(Object.keys(dataRender).sort())}
+            orientation="horizontal"
+            layout="vetical" verticalAlign="middle" align="right"/>
           {(Object.keys(dataRender).sort()).map((sport) => {
               return (<MarkSeries
                 className={`Graph2-{sport}`}
@@ -87,20 +95,12 @@ export default class SportsCountryChart extends Component {
                 data={dataRender[sport]}
                 size={2}/>);
             })}
-            <DiscreteColorLegend
-              width={150}
-              height={200}
-              startTitle={"Legend"}
-              items={(Object.keys(dataRender).sort())}
-              className="legend"
-              layout="vetical" verticalAlign="middle" align="right"
-              />
         </XYPlot>
         <div>
           <form>
-            <label> NOCs:  
+            <label> NOCs:
               <select value={this.state.noc} onChange={this.handlNOCChange}>
-              {this.state.legalNocs.map(d => {
+              {this.state.legalNocs.sort().map(d => {
                    return (<option key={d} value={d}>{d}</option>);
                })}
               </select>

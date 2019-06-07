@@ -27,7 +27,8 @@ export default class AthleteFactors extends Component {
       sport: Object.keys(this.props.data)[getRandomInt(Object.keys(this.props.data).length)],
       keyOfInterest: this.props.options[0],
       legalSports: Object.keys(this.props.data),
-      xDomain: this.props.xDomain
+      xDomain: this.props.xDomain,
+      hintValue: false,
     };
 
     this.handleSportChange = this.handleSportChange.bind(this);
@@ -50,6 +51,7 @@ export default class AthleteFactors extends Component {
   render() {
     const yDomain = getYdomain(this.props.data, this.state.sport, this.state.keyOfInterest);
     const formattedData = convertData(this.props.data, this.state.sport, this.state.keyOfInterest);
+    const value = this.state.hintValue;
     // console.log(this.state.legalSports)
     return (
       <div>
@@ -66,27 +68,37 @@ export default class AthleteFactors extends Component {
            <XAxis tickFormat={(v, i) => setYears(v)}/>
            <YAxis />
            <HorizontalRectSeries
+              onValueMouseOver={v => {console.log(v);this.setState({hintValue: v})}}
+              onSeriesMouseOut={v => this.setState({hintValue: false})}
               data={formattedData.reduce((accum, d) => {
                 accum.push({x: d.year+.1, x0: d.year-.1, y: d.min, y0: d.max, else: d})
                 return accum;
               }, [])}/>
            <HorizontalRectSeries
-              onValueMouseOver={d => console.log(d)}
+              onValueMouseOver={v => {console.log(v);this.setState({hintValue: v})}}
+              onSeriesMouseOut={v => this.setState({hintValue: false})}
               data={formattedData.reduce((accum, d) => {
                 accum.push({x: d.year+0.9, x0: d.year-0.9, y: d.thirdQ, y0: d.firstQ, else: d})
                 return accum;
               }, [])}/>
-          <HorizontalRectSeries
-             data={formattedData.reduce((accum, d) => {
-               accum.push({x: d.year+0.9, x0: d.year-0.9, y: d.min, y0: d.min, else: d})
-               return accum;
-             }, [])}/>
+              {value !== false &&
+                <Hint value ={value}>
+                  <div style={{background: 'black'}}>
+                    <h3>Stats</h3>
+                    <p>Year:  {value.else.year}</p>
+                    <p>Min:  {value.else.min}</p>
+                    <p>Max:  {value.else.max}</p>
+                    <p>Median:  {value.else.median}</p>
+                    <p>First Quantile:  {value.else.firstQ}</p>
+                    <p>Third Quantile:  {value.else.thirdQ}</p>
+                  </div>
+                </Hint>}
          </XYPlot>
        </div>
        <div>
          <form>
            <select value={this.state.sport} onChange={this.handleSportChange}>
-           {this.state.legalSports.map(d => {
+           {this.state.legalSports.sort().map(d => {
                 return (<option key={d} value={d}>
                           {capitalizeFirstLetter(d)}
                         </option>);

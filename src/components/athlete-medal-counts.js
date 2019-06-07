@@ -105,7 +105,7 @@ export default class AthleteMedalCounts extends Component {
           <form>
             <label> Sports:
               <select value={this.state.sport} onChange={this.handleSportChange}>
-              {this.state.legalSports.map(d => {
+              {this.state.legalSports.sort().map(d => {
                    return (<option key={d} value={d}>{d}</option>);
                })}
               </select>
