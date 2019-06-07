@@ -108,3 +108,7 @@
   position:relative;
 }
 
+.grid {
+  color: black;
+  stroke: black;
+}

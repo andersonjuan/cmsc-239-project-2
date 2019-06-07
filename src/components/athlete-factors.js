@@ -63,10 +63,10 @@ export default class AthleteFactors extends Component {
             width={this.props.dim.width}
             colorType="category"
             className="graph">
-            <HorizontalGridLines />
-            <VerticalGridLines />
-           <XAxis title="Year" tickFormat={(v, i) => setYears(v)}/>
-           <YAxis title={this.state.keyOfInterest}/>
+            <HorizontalGridLines style={{stroke: "#474646"}}/>
+            <VerticalGridLines style={{stroke: "#474646"}}/>
+           <XAxis title="Year" tickFormat={(v, i) => setYears(v)} style={{stroke: "#474646"}}/>
+           <YAxis title={this.state.keyOfInterest} style={{stroke: "#474646"}}/>
            <HorizontalRectSeries
               onValueMouseOver={v => {console.log(v);this.setState({hintValue: v})}}
               onSeriesMouseOut={v => this.setState({hintValue: false})}

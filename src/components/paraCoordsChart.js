@@ -68,6 +68,7 @@ export default class ParallelCoords extends Component {
                }
              },
              labels: {
+               fontSize: 12,
                textAnchor: 'right'
              }
            }}

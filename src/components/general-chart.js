@@ -67,10 +67,10 @@ export default class ButtonFilterChart extends Component {
             }
             return d[this.state.keyOfInterest]}}
             className="graph">
-          <VerticalGridLines />
-          <HorizontalGridLines />
-          <XAxis tickFormat={(v, i) => setYears(v)} title="Year"/>
-          <YAxis title="Number of Medals Won"/>
+          <VerticalGridLines style={{stroke: "#474646"}}/>
+          <HorizontalGridLines style={{stroke: "#474646"}}/>
+          <XAxis tickFormat={(v, i) => setYears(v)} title="Year" style={{stroke: "#474646"}}/>
+          <YAxis title="Number of Medals Won" style={{stroke: "#474646"}}/>
           <MarkSeries
             className="Graph 1"
             cx={d => d.key}

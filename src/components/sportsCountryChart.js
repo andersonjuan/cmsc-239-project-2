@@ -70,10 +70,10 @@ export default class SportsCountryChart extends Component {
           colorType="category"
           className="graph">
 
-          <VerticalGridLines />
-          <HorizontalGridLines />
-          <XAxis title="Year" tickFormat={(v, i) => setYears(v)}/>
-          <YAxis title="Number of Medals Won"/>
+          <VerticalGridLines style={{stroke: "#474646"}}/>
+          <HorizontalGridLines style={{stroke: "#474646"}}/>
+          <XAxis title="Year" tickFormat={(v, i) => setYears(v)} style={{stroke: "#474646"}}/>
+          <YAxis title="Number of Medals Won" style={{stroke: "#474646"}}/>
           <DiscreteColorLegend
             width={500}
             height={50}

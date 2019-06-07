@@ -80,10 +80,10 @@ export default class AthleteMedalCounts extends Component {
             }
             return d[this.state.keyOfInterest]; }}
             className="graph">
-          <VerticalGridLines />
-          <HorizontalGridLines />
-          <XAxis title="Age in Years" tickFormat={(v, i) => setYears(v)}/>
-          <YAxis title="Number of Medals Won"/>
+          <VerticalGridLines style={{stroke: "#474646"}}/>
+          <HorizontalGridLines style={{stroke: "#474646"}}/>
+          <XAxis title="Age in Years" tickFormat={(v, i) => setYears(v)} style={{stroke: "#474646"}}/>
+          <YAxis title="Number of Medals Won" style={{stroke: "#474646"}}/>
           <MarkSeries
             className="Graph 4"
             cx={d => {

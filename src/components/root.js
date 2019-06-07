@@ -76,7 +76,7 @@ class RootComponent extends React.Component {
 
     // console.log(athleteFactors)
     return (
-      <div className="relative">
+      <div className="relative" style={{backgroundColor: "#e3dedb"}}>
         <h1> All the Glitter is not Gold</h1>
         <Intro />
         <Para1 />
