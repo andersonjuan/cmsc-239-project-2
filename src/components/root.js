@@ -2,7 +2,8 @@ import React from 'react';
 import {csv} from 'd3-fetch';
 import ButtonFilterChart from './general-chart';
 import SportsCountryChart from './sportsCountryChart';
-import {Intro, Conclusion, Para1, Para2, Para3, Para4, Para5} from '../text.js';
+import {Intro, Intro11, Intro2, Intro21, Intro3, Conclusion, Para1, Para12, 
+  Para2, Para21, Para3, Para31, Para4, Para41, Para5} from '../text.js';
 import AthleteMedalCounts from './athlete-medal-counts';
 import AthleteFactors from './athlete-factors';
 import ParallelCoords from './paraCoordsChart';
@@ -77,15 +78,23 @@ class RootComponent extends React.Component {
     // console.log(athleteFactors)
     return (
       <div className="relative" style={{backgroundColor: "#e3dedb"}}>
-        <h1> All the Glitter is not Gold</h1>
+        <h1>Gold Medal Vis: A Visual History of the Olympics Since 1970</h1>
         <Intro />
+        <Intro11 />
+        <Intro2 />
+        <Intro21 />
+        <Intro3 />
         <Para1 />
+        <Para12 />
         <ButtonFilterChart data={medalsData} options={medals} dim={dimension} countries={countriesMap}/>
         <Para2 />
+        <Para21 />
         <SportsCountryChart data={sportsData} options={medals.concat("All")} dim={dimension} />
         <Para3 />
+        <Para31 />
         <AthleteMedalCounts data={athleteMedals} options={medals} dim={dimension} />
         <Para4 />
+        <Para41 />
         <AthleteFactors data={athleteFactors} options={["Age", "Weight", "Height"]} dim={dimension}
         xDomain={[1970, 2018]}/>
         <Para5 />
